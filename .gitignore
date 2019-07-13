@@ -3,3 +3,9 @@
 
 # logs
 **/*logs
+
+#
+**/*.exe
+
+# go mod
+go.sum
