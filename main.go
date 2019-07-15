@@ -2,10 +2,12 @@
 package main
 
 import (
+	"letgo/web/controllers"
+
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/middleware/recover"
-	//"github.com/kataras/iris/mvc"
+	"github.com/kataras/iris/mvc"
 )
 
 // main
@@ -42,10 +44,11 @@ func newApp() *iris.Application {
 
 	// Use MVC
 	//mvc.New(app.Party("/").Handle())
+	mvc.New(app).Handle(new(controllers.HomeController))
 
-	app.Handle("GET", "/", func(ctx iris.Context) {
-		ctx.HTML("<h1>Welcome</h1>")
-	})
+	// app.Handle("GET", "/", func(ctx iris.Context) {
+	// 	ctx.HTML("<h1>Welcome</h1>")
+	// })
 	app.Get("/hello/{name}", func(ctx iris.Context) {
 		ctx.Writef("hello %s", ctx.Params().Get("name"))
 	})
