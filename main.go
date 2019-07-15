@@ -46,5 +46,9 @@ func newApp() *iris.Application {
 	app.Handle("GET", "/", func(ctx iris.Context) {
 		ctx.HTML("<h1>Welcome</h1>")
 	})
+	app.Get("/hello/{name}", func(ctx iris.Context) {
+		ctx.Writef("hello %s", ctx.Params().Get("name"))
+	})
+
 	return app
 }
