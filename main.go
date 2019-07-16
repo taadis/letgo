@@ -20,9 +20,10 @@ func main() {
 	// 配置和启动服务
 	// 配置参考: https://www.studyiris.com/doc/irisDoc/Configuration.html
 	//app.Configure(iris.WithConfiguration(iris.TOML("./config/iris.yml")))
-	//ymlConfig := iris.YAML("./config/iris.yml")
+	config := iris.YAML("./config/iris.yml")
 	//app.Configure(iris.WithConfiguration(ymlConfig))
-	app.Run(iris.Addr(":80")) // 使用默认配置
+	//app.Run(iris.Addr(":80")) // 使用默认配置
+	app.Run(iris.Addr(":80"), iris.WithConfiguration(config))
 }
 
 //
