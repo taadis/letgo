@@ -4,6 +4,8 @@ package main
 import (
 	"letgo/web/controllers"
 
+	"github.com/dgrijalva/jwt-go"
+	jwtmiddleware "github.com/iris-contrib/middleware/jwt"
 	"github.com/kataras/iris"
 	"github.com/kataras/iris/middleware/logger"
 	"github.com/kataras/iris/middleware/recover"
@@ -25,9 +27,17 @@ func main() {
 
 //
 func newApp() *iris.Application {
+	jwthandler := jwtmiddleware.New(jwtmiddleware.Config{
+		ValidationKeyGetter: func(token *jwt.Token) (interface{}, error) {
+			return []byte("mySecret"), nil
+		},
+		SigningMethod: jwt.SigningMethodHS256,
+	})
+
 	app := iris.New()
 	app.Use(recover.New())
 	app.Use(logger.New())
+	app.Use(jwthandler.Serve)
 
 	// 注册视图(模板引擎)
 	viewEngine := iris.HTML("./web/views", ".html").Layout("shared/layout.html").Reload(true)
