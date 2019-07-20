@@ -7,5 +7,5 @@
 #
 **/*.exe
 
-# go mod
+# go mod sum
 go.sum
