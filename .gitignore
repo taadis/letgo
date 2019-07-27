@@ -1,5 +1,6 @@
 # Goland
 .idea
+**/output
 
 # logs
 **/*logs
@@ -9,3 +10,6 @@
 
 # go mod sum
 go.sum
+
+# .dat
+**/*.dat
