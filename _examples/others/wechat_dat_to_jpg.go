@@ -8,7 +8,6 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
-	//"os"
 )
 
 //
@@ -17,7 +16,7 @@ func init() {
 }
 
 func main() {
-	// 微信 dat 文件目录
+	// 微信 .dat 文件目录
 	// C:\Users\taadis\Documents\WeChat Files\taadis\FileStorage\Image\2019-07
 
 	// 输入目录
@@ -42,7 +41,6 @@ func main() {
 			if !strings.HasSuffix(fileInfo.Name(), ".dat") {
 				break
 			}
-			// 读取文件字节数据
 			inFilename := fmt.Sprintf("%s\\%s", dirname, fileInfo.Name())
 			datFiles = append(datFiles, inFilename)
 		}
@@ -52,21 +50,6 @@ func main() {
 	if len(datFiles) < 1 {
 		log.Println("当前路径下没有找到需要处理的 .dat 文件")
 		return
-	}
-
-	for key, fileInfo := range fileInfos {
-		// 判断是目录还是文件
-		if fileInfo.IsDir() {
-			log.Println("dir: ", key)
-		} else {
-			// 判断是不是 .dat 后缀的文件
-			if !strings.HasSuffix(fileInfo.Name(), ".dat") {
-				break
-			}
-			// 读取文件字节数据
-			inFilename := fmt.Sprintf("%s\\%s", dirname, fileInfo.Name())
-			datFiles = append(datFiles, inFilename)
-		}
 	}
 
 	//
@@ -99,8 +82,7 @@ func main() {
 func WechatDatToImage(dat []byte) (img []byte, err error) {
 	var buffer bytes.Buffer
 	for _, value := range dat {
-		//err = buffer.WriteByte(value ^ 0x75) // 网上的不对
-		err = buffer.WriteByte(value ^ 0xF2) // ok
+		err = buffer.WriteByte(value ^ 0xF2)
 		if err != nil {
 			return
 		}
