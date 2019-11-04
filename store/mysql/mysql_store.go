@@ -3,12 +3,9 @@ package mysql
 import (
 	"database/sql"
 	"errors"
-)
 
-type User struct {
-	Id   string
-	Name string
-}
+	"github.com/taadis/letgo/store"
+)
 
 type UserStore struct {
 	Db *sql.DB
@@ -17,7 +14,7 @@ type UserStore struct {
 // 新增用户
 // 如果插入数据库成功, 则返回id,
 // 如果插入数据库失败, 则返回错误.
-func (userStore *UserStore) Create(user *User) (int64, error) {
+func (userStore *UserStore) Create(user *store.User) (int64, error) {
 	query := ""
 	result, err := userStore.Db.Exec(query)
 	if err != nil {
@@ -29,7 +26,7 @@ func (userStore *UserStore) Create(user *User) (int64, error) {
 // 更新用户
 // 如果更新数据行成功, 则返回受影响的行数,
 // 如果更新数据行失败, 则返回错误.
-func (userStore *UserStore) Update(user *User) (int64, error) {
+func (userStore *UserStore) Update(user *store.User) (int64, error) {
 	query := ""
 	result, err := userStore.Db.Exec(query)
 	if err != nil {
@@ -39,8 +36,8 @@ func (userStore *UserStore) Update(user *User) (int64, error) {
 }
 
 // 查询指定用户
-func (userStore *UserStore) User(id string) (*User, error) {
-	var user User
+func (userStore *UserStore) User(id string) (*store.User, error) {
+	var user store.User
 	query := "select * from t_article t where t.id = $1"
 	row := userStore.Db.QueryRow(query, id)
 	if err := row.Scan(&user.Id, &user.Name); err != nil {
@@ -50,7 +47,7 @@ func (userStore *UserStore) User(id string) (*User, error) {
 }
 
 // 查询用户列表
-func (userStore *UserStore) Users() ([]*User, error) {
+func (userStore *UserStore) Users() ([]*store.User, error) {
 	query := "select * from t_article"
 	_, err := userStore.Db.Query(query)
 	if err != nil {
