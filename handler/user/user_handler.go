@@ -14,7 +14,7 @@ func HandleFunc(w http.ResponseWriter, r *http.Request) {
 	case http.MethodGet:
 		get(w, r)
 	case http.MethodPost:
-		//post(w, r)
+		post(w, r)
 	case http.MethodDelete:
 		delete(w, r)
 	default:
@@ -23,9 +23,15 @@ func HandleFunc(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//
 func get(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 	w.Write([]byte("未实现"))
+}
+
+//
+func post(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
 }
 
 /*
@@ -51,7 +57,7 @@ func post(w http.ResponseWriter, r *http.Request) {
 }
 */
 
-// 删除用户
+//
 func delete(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 	w.Write([]byte("未实现"))
