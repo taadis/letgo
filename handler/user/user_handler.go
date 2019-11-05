@@ -12,25 +12,25 @@ func HandleFunc(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Method, r.RequestURI)
 	switch r.Method {
 	case http.MethodGet:
-		get(w, r)
+		getFunc(w, r)
 	case http.MethodPost:
-		post(w, r)
+		postFunc(w, r)
+	case http.MethodPut:
+		putFunc(w, r)
 	case http.MethodDelete:
-		delete(w, r)
+		deleteFunc(w, r)
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)
-		w.Write([]byte(fmt.Sprintf("该方法不支持, 当前路由: %s %s", r.Method, r.RequestURI)))
 	}
 }
 
 //
-func get(w http.ResponseWriter, r *http.Request) {
+func getFunc(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
-	w.Write([]byte("未实现"))
 }
 
 //
-func post(w http.ResponseWriter, r *http.Request) {
+func postFunc(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
 }
 
@@ -58,7 +58,11 @@ func post(w http.ResponseWriter, r *http.Request) {
 */
 
 //
-func delete(w http.ResponseWriter, r *http.Request) {
+func putFunc(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNotImplemented)
-	w.Write([]byte("未实现"))
+}
+
+//
+func deleteFunc(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
 }
