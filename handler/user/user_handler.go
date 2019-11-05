@@ -34,19 +34,29 @@ func HandleFunc(w http.ResponseWriter, r *http.Request) {
 }
 
 //
+func recoverFunc(w http.ResponseWriter, r *http.Request) {
+	if rc := recover(); rc != nil {
+		s := fmt.Sprintf("panic recover %v", rc)
+		fmt.Println(s)
+		http.Error(w, s, http.StatusInternalServerError)
+	}
+}
+
+//
 func getFunc(w http.ResponseWriter, r *http.Request) (err error) {
 	//w.WriteHeader(http.StatusNotImplemented)
 	//err = errors.New("get user error")
-	defer func() {
-		if rc := recover(); rc != nil {
-			s := fmt.Sprintf("panic recover %v", rc)
-			fmt.Println(s)
-			http.Error(w, s, http.StatusInternalServerError)
-		}
-	}()
+	// defer func() {
+	// 	if rc := recover(); rc != nil {
+	// 		s := fmt.Sprintf("panic recover %v", rc)
+	// 		fmt.Println(s)
+	// 		http.Error(w, s, http.StatusInternalServerError)
+	// 	}
+	// }()
+	defer recoverFunc(w, r)
 	values := r.URL.Query()
 	id := values.Get("id")
-	panic("鬼知道为什么崩溃了!")
+	//panic("鬼知道为什么崩溃了!")
 	//user := store.User{}
 	userStore := mysql.UserStore{}
 	user, err := userStore.User(id)
