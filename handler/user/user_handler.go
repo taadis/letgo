@@ -2,37 +2,33 @@ package user
 
 import (
 	"fmt"
-	"html/template"
-	"io"
+	//"html/template"
+	//"io"
 	"net/http"
-
-	"github.com/taadis/letgo/store"
+	//"github.com/taadis/letgo/store"
 )
 
-func Handler(w http.ResponseWriter, r *http.Request) {
+func HandleFunc(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Method, r.RequestURI)
 	switch r.Method {
-	case "GET":
+	case http.MethodGet:
 		get(w, r)
-	case "POST":
-		post(w, r)
+	case http.MethodPost:
+		//post(w, r)
+	case http.MethodDelete:
+		delete(w, r)
 	default:
-		NotFoundHandler(w, r)
+		w.WriteHeader(http.StatusMethodNotAllowed)
+		w.Write([]byte(fmt.Sprintf("该方法不支持, 当前路由: %s %s", r.Method, r.RequestURI)))
 	}
 }
 
 func get(w http.ResponseWriter, r *http.Request) {
-	t, err := template.ParseFiles("views/user/add.html")
-	if err != nil {
-		io.WriteString(w, err.Error())
-		return
-	}
-	err = t.Execute(w, nil)
-	if err != nil {
-		io.WriteString(w, err.Error())
-	}
+	w.WriteHeader(http.StatusNotImplemented)
+	w.Write([]byte("未实现"))
 }
 
+/*
 // 添加用户
 func post(w http.ResponseWriter, r *http.Request) {
 	inputModel := new(model.Article)
@@ -52,4 +48,11 @@ func post(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	io.WriteString(w, "Add()成功!")
+}
+*/
+
+// 删除用户
+func delete(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotImplemented)
+	w.Write([]byte("未实现"))
 }
