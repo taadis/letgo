@@ -53,7 +53,7 @@ func getFunc(w http.ResponseWriter, r *http.Request) (err error) {
 	// 		http.Error(w, s, http.StatusInternalServerError)
 	// 	}
 	// }()
-	defer recoverFunc(w, r)
+	//defer recoverFunc(w, r)
 	values := r.URL.Query()
 	id := values.Get("id")
 	//panic("鬼知道为什么崩溃了!")
