@@ -15,7 +15,7 @@ type RuntimeInfo struct {
 	RuntimeVersion string `json:"runtime_version"` // 运行时版本
 }
 
-func Index(w http.ResponseWriter, r *http.Request) {
+func HandleFunc(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/" {
 		http.NotFound(w, r)
 	} else {

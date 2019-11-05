@@ -12,7 +12,7 @@ import (
 func main() {
 	fmt.Println("ready to start golb app")
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", home.Index)
+	mux.HandleFunc("/", home.HandleFunc)
 	mux.HandleFunc("/system/user/", user.HandleFunc)
 	err := http.ListenAndServe(":5903", mux)
 	if err != nil {
