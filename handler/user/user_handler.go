@@ -1,7 +1,9 @@
 package user
 
 import (
+	"errors"
 	"fmt"
+
 	//"html/template"
 	//"io"
 	"net/http"
@@ -10,28 +12,35 @@ import (
 
 func HandleFunc(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.Method, r.RequestURI)
+	var err error
 	switch r.Method {
 	case http.MethodGet:
-		getFunc(w, r)
+		err = getFunc(w, r)
 	case http.MethodPost:
-		postFunc(w, r)
+		err = postFunc(w, r)
 	case http.MethodPut:
-		putFunc(w, r)
+		err = putFunc(w, r)
 	case http.MethodDelete:
-		deleteFunc(w, r)
+		err = deleteFunc(w, r)
 	default:
 		w.WriteHeader(http.StatusMethodNotAllowed)
+	}
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
 
 //
-func getFunc(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
+func getFunc(w http.ResponseWriter, r *http.Request) (err error) {
+	//w.WriteHeader(http.StatusNotImplemented)
+	err = errors.New("get user error")
+	return
 }
 
 //
-func postFunc(w http.ResponseWriter, r *http.Request) {
+func postFunc(w http.ResponseWriter, r *http.Request) (err error) {
 	w.WriteHeader(http.StatusNotImplemented)
+	return
 }
 
 /*
@@ -58,11 +67,13 @@ func post(w http.ResponseWriter, r *http.Request) {
 */
 
 //
-func putFunc(w http.ResponseWriter, r *http.Request) {
+func putFunc(w http.ResponseWriter, r *http.Request) (err error) {
 	w.WriteHeader(http.StatusNotImplemented)
+	return
 }
 
 //
-func deleteFunc(w http.ResponseWriter, r *http.Request) {
+func deleteFunc(w http.ResponseWriter, r *http.Request) (err error) {
 	w.WriteHeader(http.StatusNotImplemented)
+	return
 }
