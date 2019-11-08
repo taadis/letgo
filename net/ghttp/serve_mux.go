@@ -6,7 +6,8 @@ import (
 )
 
 //
-type HandlerFunc func(http.ResponseWriter, *http.Request)
+//type HandlerFunc func(http.ResponseWriter, *http.Request)
+type HandlerFunc func(*Context)
 
 //  实现接口 ServeHTTP
 type ServeMux struct {
@@ -16,7 +17,9 @@ type ServeMux struct {
 // 构造函数
 // 函数名称同 http.NewServeMux()
 func NewServeMux() *ServeMux {
-	return &ServeMux{router: make(map[string]HandlerFunc)}
+	return &ServeMux{
+		router: make(map[string]HandlerFunc),
+	}
 }
 
 //
@@ -74,8 +77,13 @@ func (mux *ServeMux) Trace(pattern string, handler HandlerFunc) {
 func (mux *ServeMux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	key := r.Method + ":" + r.URL.Path
 	if handler, ok := mux.router[key]; ok {
-		handler(w, r)
+		//handler(w, r)
+		context := NewContext(w, r)
+		handler(context)
 	} else {
 		http.NotFound(w, r)
 	}
 }
+
+//
+//func (mux *ServeMux) handle()
