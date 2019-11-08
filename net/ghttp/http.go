@@ -1,4 +1,4 @@
-// ghttp.go
+// http.go
 package ghttp
 
 import (
