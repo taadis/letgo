@@ -3,8 +3,6 @@ package http
 import (
 	"encoding/json"
 	"encoding/xml"
-
-	//"encoding/json"
 	"net/http"
 )
 
