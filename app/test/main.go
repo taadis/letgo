@@ -14,6 +14,9 @@ func main() {
 	mux.Get("/", func(c *app.Context) {
 		c.Saw(http.StatusOK, []byte("hello world"))
 	})
+	mux.Get("/plain", func(c *app.Context) {
+		c.Plain(http.StatusOK, []byte("plain"))
+	})
 	mux.Get("/json/", func(c *app.Context) {
 		c.Json(http.StatusOK, `{"key":"value"}`)
 	})

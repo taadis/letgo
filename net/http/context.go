@@ -34,6 +34,16 @@ func (c *Context) Saw(statusCode int, payload []byte) {
 }
 
 //
+func (c *Context) Plain(statusCode int, payload []byte) {
+	c.ResponseWriter.WriteHeader(statusCode)
+	c.ResponseWriter.Header().Set("Context-Type", "text/plain")
+	_, err := c.ResponseWriter.Write(payload)
+	if err != nil {
+		http.Error(c.ResponseWriter, err.Error(), http.StatusInternalServerError)
+	}
+}
+
+//
 func (c *Context) Json(statusCode int, payload interface{}) {
 	c.ResponseWriter.WriteHeader(statusCode)
 	c.ResponseWriter.Header().Set("Content-Type", "application/json")
