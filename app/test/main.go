@@ -14,6 +14,12 @@ func main() {
 	mux.Get("/", func(c *app.Context) {
 		c.Saw(http.StatusOK, []byte("hello world"))
 	})
+	mux.Get("/json/", func(c *app.Context) {
+		c.Json(http.StatusOK, `{"key":"value"}`)
+	})
+	mux.Get("/xml/", func(c *app.Context) {
+		c.Xml(http.StatusOK, "<xml></xml>")
+	})
 	err := http.ListenAndServe(":5903", mux)
 	if err != nil {
 		fmt.Errorf("start golb error: ", err.Error())

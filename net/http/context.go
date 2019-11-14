@@ -1,6 +1,9 @@
 package http
 
 import (
+	"encoding/json"
+	"encoding/xml"
+
 	//"encoding/json"
 	"net/http"
 )
@@ -31,13 +34,24 @@ func (c *Context) Saw(statusCode int, payload []byte) {
 }
 
 //
-// func (c *Context) Json(statusCode int, payload interface{}) {
+func (c *Context) Json(statusCode int, payload interface{}) {
+	c.ResponseWriter.WriteHeader(statusCode)
+	c.ResponseWriter.Header().Set("Content-Type", "application/json")
+	encoder := json.NewEncoder(c.ResponseWriter)
+	if err := encoder.Encode(payload); err != nil {
+		http.Error(c.ResponseWriter, err.Error(), http.StatusInternalServerError)
+	}
+}
 
-// 	c.ResponseWriter.WriteHeader(statusCode)
-// 	c.ResponseWriter.Header().Set("Content-Type", "application/json")
-// 	encoder := json.NewEncoder(c.ResponseWriter)
-
-// }
+//
+func (c *Context) Xml(statusCode int, payload interface{}) {
+	c.ResponseWriter.WriteHeader(statusCode)
+	c.ResponseWriter.Header().Set("Context-Type", "application/xml")
+	encoder := xml.NewEncoder(c.ResponseWriter)
+	if err := encoder.Encode(payload); err != nil {
+		http.Error(c.ResponseWriter, err.Error(), http.StatusInternalServerError)
+	}
+}
 
 //
 // func (c *Context) Html(statusCode, html []byte) {
