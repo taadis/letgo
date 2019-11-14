@@ -5,13 +5,13 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/taadis/letgo/net/ghttp"
+	app "github.com/taadis/letgo/net/http"
 )
 
 func main() {
 	fmt.Println("ready to start test app")
-	mux := ghttp.NewServeMux()
-	mux.Get("/", func(c *ghttp.Context) {
+	mux := app.NewServeMux()
+	mux.Get("/", func(c *app.Context) {
 		c.Saw(http.StatusOK, []byte("hello world"))
 	})
 	err := http.ListenAndServe(":5903", mux)

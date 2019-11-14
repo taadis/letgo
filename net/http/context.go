@@ -1,4 +1,4 @@
-package ghttp
+package http
 
 import (
 	//"encoding/json"

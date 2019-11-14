@@ -1,5 +1,5 @@
 // http.go
-package ghttp
+package http
 
 import (
 	"net/http"

@@ -1,6 +1,6 @@
 // router.go
 
-package ghttp
+package http
 
 //
 type router struct {
