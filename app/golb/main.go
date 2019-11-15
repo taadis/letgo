@@ -5,18 +5,9 @@ import (
 	"fmt"
 	"html/template"
 	"net/http"
+
+	"github.com/taadis/letgo/app/golb/controllers"
 )
-
-// User struct
-type User struct {
-	UserName string
-}
-
-// Post struct
-type Post struct {
-	User User
-	Body string
-}
 
 // indexView struct
 type indexView struct {
@@ -59,6 +50,7 @@ func main() {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})
+	controllers.Startup()
 	//mux.HandleFunc("/system/user/", user.HandleFunc)
 	//mux.Handle("/system/user/", midleware.PanicAndRecover(http.HandlerFunc(user.HandleFunc)))
 	err := http.ListenAndServe(":5903", mux)
