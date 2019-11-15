@@ -4,10 +4,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Index</title>
+  {{if .Title}}
+  <title>{{.Title}}</title>
+  {{else}}
+  <title>Welcom to golb</title>
+  {{end}}
 </head>
 <body>
-  <h1>Hello {{.UserName}}</h1>
+  <h1>Hello {{.User.UserName}}</h1>
+  {{range .Posts}}
+  <div><p>{{.User.UserName}}:<b>{{.Body}}</b></p></div>
+  {{end}}
 </body>
 </html>
 

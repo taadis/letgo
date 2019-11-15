@@ -12,18 +12,49 @@ type User struct {
 	UserName string
 }
 
+// Post struct
+type Post struct {
+	User User
+	Body string
+}
+
+// indexView struct
+type indexView struct {
+	Title string
+	User  User
+	Posts []Post
+}
+
 func main() {
 	fmt.Println("ready to start golb app")
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		user := User{
+		user1 := User{
 			UserName: "taadis",
+		}
+		user2 := User{
+			UserName: "miebug",
+		}
+		posts := []Post{
+			Post{
+				User: user1,
+				Body: "blog1",
+			},
+			Post{
+				User: user2,
+				Body: "blog2",
+			},
+		}
+		viewModel := indexView{
+			Title: "HomePage",
+			User:  user1,
+			Posts: posts,
 		}
 		tmp, err := template.ParseFiles("views/index.html")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
-		err = tmp.Execute(w, &user)
+		err = tmp.Execute(w, &viewModel)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
