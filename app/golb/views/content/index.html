@@ -1,0 +1,7 @@
+{{define "content"}}
+ Hello, {{.CurrentUser}}!
+
+ {{range .Posts}}
+ {{ .User.Username }} says: {{ .Body }}
+ {{end}}
+{{end}}
