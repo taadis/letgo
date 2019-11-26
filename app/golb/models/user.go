@@ -21,3 +21,12 @@ func GetUserByUsername(username string) User {
 	db.Where("username=?", username).Find(&user)
 	return user
 }
+
+func AddUser(username, password, email string) error {
+	user := User{
+		Username: username,
+		Email:    email,
+	}
+	user.SetPassword(password)
+	return db.Create(&user).Error
+}
