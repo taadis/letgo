@@ -15,11 +15,11 @@ func (u *User) SetPassword(password string) {
 	u.PasswordHash = GeneratePassword(password)
 }
 
-func GetUserByUsername(username string) User {
+func GetUserByUsername(username string) (User, error) {
 	var user User
 	fmt.Println(db)
 	db.Where("username=?", username).Find(&user)
-	return user
+	return user, nil
 }
 
 func AddUser(username, password, email string) error {

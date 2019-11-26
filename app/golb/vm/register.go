@@ -2,8 +2,6 @@
 package vm
 
 import (
-	"fmt"
-
 	"github.com/taadis/letgo/app/golb/models"
 )
 

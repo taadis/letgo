@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 
 	"github.com/taadis/letgo/app/golb/vm"
@@ -13,6 +14,7 @@ type home struct{}
 func (h home) registerRoutes() {
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/login", loginHandler)
+	http.HandleFunc("/register", registerHandler)
 }
 
 //
@@ -35,5 +37,33 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 		username := r.Form.Get("username")
 		password := r.Form.Get("password")
 		fmt.Fprintf(w, "Username:%s,Password%s:", username, password)
+	}
+}
+
+//
+func registerHandler(w http.ResponseWriter, r *http.Request) {
+	tpName := "register.html"
+	vop := vm.RegisterViewModelOp{}
+	v := vop.GetVM()
+	switch r.Method {
+	case http.MethodGet:
+		templates[tpName].Execute(w, &v)
+	case http.MethodPost:
+		r.ParseForm()
+		username := r.Form.Get("username")
+		email := r.Form.Get("email")
+		pwd1 := r.Form.Get("pwd1")
+		pwd2 := r.Form.Get("pwd2")
+		if pwd1 != pwd2 {
+			io.WriteString(w, "password error")
+		}
+		if vm.CheckUserName(username) {
+			err := vm.AddUser(username, pwd1, email)
+			if err != nil {
+				io.WriteString(w, "register error")
+			} else {
+				http.Redirect(w, r, "/", http.StatusSeeOther)
+			}
+		}
 	}
 }
