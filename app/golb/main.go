@@ -2,7 +2,8 @@
 package main
 
 import (
-	"fmt"
+	"log"
+
 	//"html/template"
 	"net/http"
 
@@ -16,8 +17,12 @@ import (
 // 	Posts []Post
 // }
 
+func init() {
+	log.SetFlags(log.Ldate | log.Ltime | log.Lmicroseconds | log.LUTC | log.Lshortfile)
+}
+
 func main() {
-	fmt.Println("ready to start golb app")
+	log.Println("ready to start golb app")
 	// mux := http.NewServeMux()
 	// mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 	// 	user1 := User{
@@ -55,6 +60,6 @@ func main() {
 	//mux.Handle("/system/user/", midleware.PanicAndRecover(http.HandlerFunc(user.HandleFunc)))
 	err := http.ListenAndServe(":5903", nil)
 	if err != nil {
-		fmt.Errorf("start golb error: ", err.Error())
+		log.Fatalln(err)
 	}
 }
