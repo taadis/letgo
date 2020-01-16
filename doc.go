@@ -1,0 +1,2 @@
+// doc.go
+package letgo
