@@ -1,4 +1,4 @@
-module github.com/taadis/letgo
+module gitee.com/taadis/letgo
 
 go 1.11
 
