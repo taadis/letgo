@@ -16,3 +16,10 @@ func TestStringAtoi(t *testing.T) {
 	}
 	t.Log(i)
 }
+
+// 测试数值转字符串
+func TestItoa(t *testing.T) {
+	i := 10
+	s := strconv.Itoa(i)
+	t.Log(s)
+}
