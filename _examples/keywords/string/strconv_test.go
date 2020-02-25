@@ -23,3 +23,11 @@ func TestItoa(t *testing.T) {
 	s := strconv.Itoa(i)
 	t.Log(s)
 }
+
+// 接口对象转字符串
+func TestStringToInterface(t *testing.T) {
+	var a interface{}
+	a = "str"
+	s := a.(string)
+	t.Log(s)
+}
