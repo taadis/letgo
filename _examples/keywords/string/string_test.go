@@ -26,4 +26,11 @@ func TestStringJoin(t *testing.T) {
 	t.Log(s)
 }
 
+// 清除字符串左右2侧的空字符
+func TestTrimSpace(t *testing.T) {
+	s := "  a   b   c   "
+	s = strings.TrimSpace(s)
+	t.Log(s)
+}
+
 // go test -v string_test.go
