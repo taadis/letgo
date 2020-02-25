@@ -25,7 +25,7 @@ func TestItoa(t *testing.T) {
 }
 
 // 接口对象转字符串
-func TestStringToInterface(t *testing.T) {
+func TestInterfaceToString(t *testing.T) {
 	var a interface{}
 	a = "str"
 	s := a.(string)
