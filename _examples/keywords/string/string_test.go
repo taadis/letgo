@@ -19,4 +19,11 @@ func TestStringSplit(t *testing.T) {
 	t.Log(sSlice)
 }
 
+//
+func TestStringJoin(t *testing.T) {
+	a := []string{"a", "b", "c"}
+	s := strings.Join(a, "-")
+	t.Log(s)
+}
+
 // go test -v string_test.go
