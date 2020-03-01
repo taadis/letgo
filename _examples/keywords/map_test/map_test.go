@@ -38,5 +38,12 @@ func TestMapGet(t *testing.T) {
 	} else {
 		t.Log("has key")
 	}
+}
 
+// 测试 map 的长度
+func TestMapLength(t *testing.T) {
+	m := map[string]int{}
+	t.Log(m, len(m))
+	m1 := map[string]int{"2": 2}
+	t.Log(m1, len(m1))
 }
