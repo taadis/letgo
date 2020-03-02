@@ -40,6 +40,19 @@ func TestMapGet(t *testing.T) {
 	}
 }
 
+// 测试 map 的删除
+func TestMapDelete(t *testing.T) {
+	m := map[string]int{}
+	t.Log(m)
+	delete(m, "")
+	t.Log(m)
+
+	m["1"] = 100
+	t.Log(m)
+	delete(m, "1")
+	t.Log(m)
+}
+
 // 测试 map 的长度
 func TestMapLength(t *testing.T) {
 	m := map[string]int{}
@@ -47,3 +60,9 @@ func TestMapLength(t *testing.T) {
 	m1 := map[string]int{"2": 2}
 	t.Log(m1, len(m1))
 }
+
+// 测试 map 的容量
+// func TestMapCap(t *testing.T) {
+// 	m := map[string]int{}
+// 	t.Log(m, cap(m))
+// }
