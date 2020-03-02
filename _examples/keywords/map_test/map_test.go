@@ -66,3 +66,13 @@ func TestMapLength(t *testing.T) {
 // 	m := map[string]int{}
 // 	t.Log(m, cap(m))
 // }
+
+// 测试 map 的函数值
+// 可以用来实现工厂模式
+func TestMapFuncValue(t *testing.T) {
+	m := map[int]func(int) int{}
+	m[1] = func(p int) int { return p }
+	m[2] = func(p int) int { return p * p }
+	m[3] = func(p int) int { return p * p * p }
+	t.Log(m[1](2), m[2](2), m[3](2))
+}
