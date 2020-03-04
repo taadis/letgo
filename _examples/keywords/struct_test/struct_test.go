@@ -23,3 +23,15 @@ func TestD(t *testing.T) {
 	t.Logf("user2 type is %T", user2)
 	t.Logf("user3 type is %T", user3)
 }
+
+// 声明一个结构体的行为, 也就是其下的函数
+func (user *User) Foo() {
+
+}
+
+// 声明一个结构体的行为,
+// 不使用指针时, 会复制一份实例对象及其成员, 会造成额外的性能开销,
+// 所以通常生命结构体的行为, 也就是函数时,  更多的是使用结构体的指针
+func (user User) Foo1() {
+
+}
