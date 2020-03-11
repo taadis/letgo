@@ -37,6 +37,15 @@ func TestWirteonlyChannel(t *testing.T) {
 	//writeonlyChannel <- 1 // fatal error: all goroutines are asleep - deadlock!
 }
 
+// test ReadWriteChannel
+func TestReadWriteChannel(t *testing.T) {
+	var readWriteChannel chan int
+	t.Logf("readWriteChannel type is %T", readWriteChannel)
+	t.Log(readWriteChannel)
+	ch := make(chan int)
+	t.Log(ch)
+}
+
 // 使用 make 声明管道
 func TestMakeChannel(t *testing.T) {
 	// 使用 make 分配内存空间, 不然使用时直接死锁 deadlock
