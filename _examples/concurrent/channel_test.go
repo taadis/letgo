@@ -1,6 +1,8 @@
 package concurrent
 
-import "testing"
+import (
+	"testing"
+)
 
 // 测试管道的声明
 func TestChannel1(t *testing.T) {
@@ -15,6 +17,24 @@ func TestChannel1(t *testing.T) {
 	// 可读可写 channel
 	var readWriteChannel chan int
 	t.Logf("readWriteChannel type is %T", readWriteChannel)
+}
+
+// 测试只读 channel
+func TestReadonlyChannel(t *testing.T) {
+	var readonlyChannel <-chan int
+	t.Logf("readonlyChannel type is %T", readonlyChannel)
+	t.Log(readonlyChannel) // nil
+	//t.Log(<-readonlyChannel) // fatal error: all goroutines are asleep - deadlock!
+	//readonlyChannel <- 1 // invalid operation: readonlyChannel <- 1 (send to receive-only type <-chan int)
+}
+
+// 测试只写 channel
+func TestWirteonlyChannel(t *testing.T) {
+	var writeonlyChannel chan<- int
+	t.Logf("writeonlyChannel type is %T", writeonlyChannel)
+	t.Log(writeonlyChannel)
+	//<-writeonlyChannel // invalid operation: <-writeonlyChannel (receive from send-only type chan<- int)
+	//writeonlyChannel <- 1 // fatal error: all goroutines are asleep - deadlock!
 }
 
 // 使用 make 声明管道
