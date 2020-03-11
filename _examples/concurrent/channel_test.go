@@ -52,3 +52,30 @@ func TestMakeChannel(t *testing.T) {
 	ch2 := make(chan int)
 	t.Log(ch2)
 }
+
+// 测试从关闭的管道中读取数据
+// 水龙头关了, 能接水(能读取), 但是只能接到空气(只能读取到数据类型的零值).
+func TestReadForClosedChannel(t *testing.T) {
+	// chan int
+	ch_int := make(chan int)
+	close(ch_int)
+	t.Log(<-ch_int)
+
+	// chan string
+	ch_string := make(chan string)
+	close(ch_string)
+	t.Log(<-ch_string)
+
+	// chan struct{}
+	ch_struct := make(chan struct{})
+	close(ch_struct)
+	t.Log(<-ch_struct)
+
+	// chan interface{}
+	ch_interface := make(chan interface{})
+	close(ch_interface)
+	t.Log(<-ch_interface)
+
+	// chan func{}
+	// 这个怎么写?
+}
