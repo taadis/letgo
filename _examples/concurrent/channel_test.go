@@ -41,9 +41,27 @@ func TestWirteonlyChannel(t *testing.T) {
 func TestReadWriteChannel(t *testing.T) {
 	var readWriteChannel chan int
 	t.Logf("readWriteChannel type is %T", readWriteChannel)
+	t.Log(&readWriteChannel)
 	t.Log(readWriteChannel)
+	_ = readWriteChannel
 	ch := make(chan int)
+	t.Logf("ch type is %T", readWriteChannel)
+	t.Log(&ch)
 	t.Log(ch)
+}
+
+// test Channel
+func TestChannel(t *testing.T) {
+	var ch1 chan int
+	t.Logf("ch1 type is %T", ch1)
+	t.Log(&ch1)
+	t.Log(ch1)
+
+	//
+	ch2 := make(chan int)
+	t.Logf("ch2 type is %T", ch2)
+	t.Log(&ch2)
+	t.Log(ch2)
 }
 
 // 使用 make 声明管道
