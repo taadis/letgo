@@ -11,3 +11,12 @@ func TestFor1(t *testing.T) {
 		break
 	}
 }
+
+// 测试使用条件循环计算1-100的和
+func TestFor2(t *testing.T) {
+	sum := 0
+	for i := 1; i <= 100; i++ {
+		sum += i
+	}
+	t.Logf("sum = %d", sum)
+}
