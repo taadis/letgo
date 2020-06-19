@@ -24,7 +24,15 @@ Let's Go.
 
 ## conf
 
-配置层
+配置层, 提供统一的配置操作.
+
+常见的配置文件:
+
+- ini
+- xml
+- json
+- yml
+- ...
 
 ## store
 
