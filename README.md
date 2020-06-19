@@ -32,4 +32,13 @@ Let's Go.
 
 所以如果需要切换数据库, 可以自行调整内部实现.
 
+这样外部导入时通常是下面这样的, 也不需要单独实例化一个操作的结构体.
+
+``` go
+import (	
+	userStore "gitee.com/taadis/store/user"
+	orderStore "gitee.com/taadis/store/order"
+)
+```
+
 ## ...
