@@ -82,14 +82,18 @@ func (userStore *UserStore) RemoveAll() (rowsAffected int64, err error) {
 }
 */
 
-// 删除指定用户
-/*
-func (userStore *UserStore) Remove(id string) (rowsAffected int64, err error) {
-	query := "delete from t_article t where t.id = $1"
-	result, err := userStore.Db.Exec(query, id)
+// Remove
+func Remove(id string) (int64, error) {
+	query := "delete from system_user where t.id = $1"
+	result, err := store.Db.Exec(query, id)
 	if err != nil {
+		log.Fatalln("db exec error", err.Error())
 		return 0, err
 	}
-	return result.RowsAffected()
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		log.Fatalln("result rowsAffected error", err.Error())
+		return 0, err
+	}
+	return rowsAffected, nil
 }
-*/
