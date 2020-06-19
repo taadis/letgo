@@ -34,17 +34,18 @@ func (userStore *UserStore) Update(user *store.User) (int64, error) {
 }
 */
 
-// 查询指定用户
-/*
-func (userStore *UserStore) User(id string) (*store.User, error) {
-	var user store.User
-	query := "select * from t_article t where t.id = $1"
-	row := userStore.Db.QueryRow(query, id)
-	if err := row.Scan(&user.Id, &user.Name); err != nil {
-		return nil, err
+// Find
+func Find(id string) (User, error) {
+	query := "select id, name from system_user t where t.id = ?"
+	row := store.Db.QueryRow(query, id)
+	var user User
+	err := row.Scan(&user.Id, &user.Name)
+	if err != nil {
+		log.Fatalln("row.Scan error", err.Error())
+		return user, err
 	}
-	return &user, nil
-}*/
+	return user, nil
+}
 
 // 查询用户列表
 func Users() ([]*User, error) {
