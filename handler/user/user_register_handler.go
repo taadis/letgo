@@ -1,12 +1,12 @@
 package user
 
 import (
-	"crypto/md5"
 	"fmt"
 	"log"
 	"net/http"
 
 	"gitee.com/taadis/letgo/store"
+	"gitee.com/taadis/letgo/util/security"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
@@ -36,7 +36,8 @@ func Register(ctx *gin.Context) {
 	systemUser.Name = payload.Name
 	systemUser.Salt = uuid.New().String()
 	// password is md5(password + salt)
-	systemUser.Password = fmt.Sprintf("%x", md5.Sum([]byte(payload.Password+systemUser.Salt)))
+	plaintext := payload.Password + systemUser.Salt
+	systemUser.Password = security.WithMd5(plaintext)
 	err = store.Db.Create(systemUser).Error
 	if err != nil {
 		log.Println("Db.Create error", err.Error())
