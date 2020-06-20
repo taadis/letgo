@@ -11,3 +11,11 @@ func WithMd5(plaintext string) string {
 	h.Write([]byte(plaintext))
 	return hex.EncodeToString(h.Sum(nil))
 }
+
+// CheckPassword
+func CheckPassword(a, b string) bool {
+	if a == b {
+		return true
+	}
+	return false
+}
