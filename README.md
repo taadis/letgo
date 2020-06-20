@@ -9,6 +9,7 @@ Let's Go.
 - app - 应用层
 - conf - 配置层
 - store - 存储层
+- util - 工具层
 
 ## app
 
@@ -60,5 +61,9 @@ import (
 	orderStore "gitee.com/taadis/store/order"
 )
 ```
+
+## util
+
+工具层, 封装一些小工具都放到这里, 方便使用.
 
 ## ...
