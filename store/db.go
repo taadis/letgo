@@ -1,25 +1,24 @@
 package store
 
 import (
-	"database/sql"
 	"log"
 
 	"gitee.com/taadis/letgo/conf"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
+	// "github.com/spf13/viper"
 )
 
-var (
-	Db  *sql.DB
-	err error
-)
+var Db *gorm.DB
 
 // init
 func init() {
 	database := conf.Database()
 	driverName := database.DriverName
 	dataSourceName := database.DataSourceName
-	Db, err = sql.Open(driverName, dataSourceName)
+	db, err := gorm.Open(driverName, dataSourceName)
 	if err != nil {
-		log.Fatalln("sql open error", err.Error())
+		log.Fatalln("gorm.Open error", err.Error())
 	}
+	Db = db
 }
