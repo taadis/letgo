@@ -13,6 +13,7 @@ func setupRouter() *gin.Engine {
 		c.String(200, "pong")
 	})
 	r.POST("/user/register", userHandler.Register)
+	r.POST("/user/login", userHandler.Login)
 	return r
 }
 
