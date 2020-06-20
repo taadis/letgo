@@ -1,16 +1,22 @@
 package main
 
 import (
+	"net/http"
+	"net/http/httptest"
 	"testing"
 
-	"github.com/kataras/iris/httptest"
+	"github.com/stretchr/testify/assert"
 )
 
-// 参考:
-// 1. https://github.com/kataras/iris/tree/master/_examples/testing/httptest
-// 2. https://studyiris.com/example/request/customViaUnmarshaler.html
-func TestMain(t *testing.T) {
-	app := newApp()
-	e := httptest.New(t, app)
-	e.GET("/").Expect().Status(httptest.StatusOK)
+// TestPing
+func TestPing(t *testing.T) {
+	router := setupRouter()
+
+	w := httptest.NewRecorder()
+	req := httptest.NewRequest(http.MethodGet, "/ping", nil)
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, 200, w.Code)
+	assert.Equal(t, "pong", w.Body.String())
+
 }
