@@ -1,114 +1,85 @@
 package user
 
 import (
-	"encoding/json"
+	"crypto/md5"
 	"fmt"
-
-	//"path"
-	//"html/template"
-	//"io"
+	"log"
 	"net/http"
 
-	//"github.com/taadis/letgo/store"
-	"github.com/taadis/letgo/store/mysql"
+	"gitee.com/taadis/letgo/store"
+	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
-func HandleFunc(w http.ResponseWriter, r *http.Request) {
-	fmt.Println(r.Method, r.RequestURI)
-	var err error
-	switch r.Method {
-	case http.MethodGet:
-		err = getFunc(w, r)
-	case http.MethodPost:
-		err = postFunc(w, r)
-	case http.MethodPut:
-		err = putFunc(w, r)
-	case http.MethodDelete:
-		err = deleteFunc(w, r)
-	default:
-		w.WriteHeader(http.StatusMethodNotAllowed)
-	}
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
+// UserRegister
+type UserRegister struct {
+	Name     string `form:"name" binding:"required"`
+	Password string `form:"password" binding:"required"`
+	//Email    string `binding:"email"`
 }
 
-//
-func recoverFunc(w http.ResponseWriter, r *http.Request) {
-	if rc := recover(); rc != nil {
-		s := fmt.Sprintf("panic recover %v", rc)
-		fmt.Println(s)
-		http.Error(w, s, http.StatusInternalServerError)
-	}
-}
-
-//
-func getFunc(w http.ResponseWriter, r *http.Request) (err error) {
-	//w.WriteHeader(http.StatusNotImplemented)
-	//err = errors.New("get user error")
-	// defer func() {
-	// 	if rc := recover(); rc != nil {
-	// 		s := fmt.Sprintf("panic recover %v", rc)
-	// 		fmt.Println(s)
-	// 		http.Error(w, s, http.StatusInternalServerError)
-	// 	}
-	// }()
-	//defer recoverFunc(w, r)
-	values := r.URL.Query()
-	id := values.Get("id")
-	//panic("鬼知道为什么崩溃了!")
-	//user := store.User{}
-	userStore := mysql.UserStore{}
-	user, err := userStore.User(id)
+func Register(ctx *gin.Context) {
+	payload := &UserRegister{}
+	err := ctx.Bind(payload)
 	if err != nil {
+		log.Println("ctx.Bind error", err.Error())
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"code":    http.StatusBadRequest,
+			"mesaage": fmt.Sprint("bad request ", err.Error()),
+		})
 		return
 	}
-	bytes, err := json.Marshal(user)
+
+	//
+	systemUser := &store.SystemUser{}
+	systemUser.Id = uuid.New().String()
+	systemUser.Name = payload.Name
+	systemUser.Salt = uuid.New().String()
+	// password is md5(password + salt)
+	systemUser.Password = fmt.Sprintf("%x", md5.Sum([]byte(payload.Password+systemUser.Salt)))
+	err = store.Db.Create(systemUser).Error
 	if err != nil {
+		log.Println("Db.Create error", err.Error())
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"code":    http.StatusInternalServerError,
+			"message": fmt.Sprint(err.Error()),
+		})
 		return
 	}
-	w.Header().Set("Content-Type", "application/json")
-	w.Write(bytes)
-	return
-}
+	ctx.JSON(http.StatusOK, gin.H{
+		"code":    "200",
+		"message": "register success",
+	})
 
-//
-func postFunc(w http.ResponseWriter, r *http.Request) (err error) {
-	w.WriteHeader(http.StatusNotImplemented)
-	return
-}
+	/*
+		//如果名称为空给一个随机字符串
+		if len(name) == 0 {
+			name = util.RandomString(10)
+		}
+		if isTelephoneExist(DB, telephone) {
+			response.Response(ctx, http.StatusUnprocessableEntity, 422, nil, "用户已存在")
+			return
+		}
+		hasePassowrd, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+		if err != nil {
+			response.Response(ctx, http.StatusInternalServerError, 500, nil, "加密错误")
+			return
+		}
+		newUser := model.User{
+			Name:      name,
+			Telephone: telephone,
+			Password:  string(hasePassowrd),
+		}
+		DB.Create(&newUser)
+		//发送token
+		token, err := common.ReleaseToken(newUser)
+		if err != nil {
+			response.Response(ctx, http.StatusInternalServerError, 500, nil, "系统异常")
+			log.Printf("token generate error:%v", err)
+			return
+		}
 
-/*
-// 添加用户
-func post(w http.ResponseWriter, r *http.Request) {
-	inputModel := new(model.Article)
-	inputModel.Title = "测试标题"
-	inputModel.Content = "测试内容"
-	inputModel.AuthorId = 11
-	article := new(model.Article)
-	lastInsertId, err := article.Add(inputModel)
-	//sql := "insert into Articles(Title, Content, Author1) value(?,?,?)"
-	//lastInsertId, err := models.AddRow(sql, model.Title, model.Content, model.Author)
-	if err != nil {
-		io.WriteString(w, err.Error())
-		return
-	}
-	if lastInsertId <= 0 {
-		io.WriteString(w, "Add()失败!")
-		return
-	}
-	io.WriteString(w, "Add()成功!")
-}
-*/
-
-//
-func putFunc(w http.ResponseWriter, r *http.Request) (err error) {
-	w.WriteHeader(http.StatusNotImplemented)
-	return
-}
-
-//
-func deleteFunc(w http.ResponseWriter, r *http.Request) (err error) {
-	w.WriteHeader(http.StatusNotImplemented)
-	return
+		//返回结果
+		response.Success(ctx, gin.H{"token": token}, "注册成功")
+	*/
 }
