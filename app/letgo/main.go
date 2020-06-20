@@ -3,6 +3,7 @@ package main
 
 import (
 	userHandler "gitee.com/taadis/letgo/handler/user"
+	"gitee.com/taadis/letgo/middleware/auth"
 	"github.com/gin-gonic/gin"
 )
 
@@ -14,6 +15,7 @@ func setupRouter() *gin.Engine {
 	})
 	r.POST("/user/register", userHandler.Register)
 	r.POST("/user/login", userHandler.Login)
+	r.POST("/user/profile", auth.AuthMiddleware(), userHandler.Profile)
 	return r
 }
 
