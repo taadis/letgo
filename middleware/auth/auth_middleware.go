@@ -32,8 +32,9 @@ func AuthMiddleware() gin.HandlerFunc {
 
 		// userId
 		userId := claims.UserId
+		log.Println("userId:", userId)
 		user := &store.SystemUser{}
-		err = store.Db.First(user, userId).Error
+		err = store.Db.Where("id=?", userId).First(user).Error
 		if err != nil {
 			log.Println("db.First error", err.Error())
 			ctx.JSON(http.StatusUnauthorized, gin.H{"code": http.StatusUnauthorized, "message": "unauthorized"})
