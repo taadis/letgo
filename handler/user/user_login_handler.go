@@ -5,6 +5,9 @@ import (
 	"log"
 	"net/http"
 
+	"gitee.com/taadis/letgo/store"
+	"gitee.com/taadis/letgo/util/jwt"
+	"gitee.com/taadis/letgo/util/security"
 	"github.com/gin-gonic/gin"
 )
 
@@ -28,8 +31,47 @@ func Login(ctx *gin.Context) {
 	}
 
 	//
+	user := &store.SystemUser{}
+	err = store.Db.Where("name=?", payload.UserName).First(user).Error
+	if err != nil {
+		log.Println("db.First error", err.Error())
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"code":    http.StatusInternalServerError,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	// check password
+	plaintext := payload.Password + user.Salt
+	ciphertext := security.WithMd5(plaintext)
+	ok := security.CheckPassword(ciphertext, user.Password)
+	if !ok {
+		ctx.JSON(http.StatusForbidden, gin.H{
+			"code":    http.StatusForbidden,
+			"message": "forbidden",
+		})
+		return
+	}
+
+	//
+	accessToken, err := jwt.GenereateToken(user.Id)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{
+			"code":    http.StatusInternalServerError,
+			"message": err.Error(),
+		})
+		return
+	}
+
+	//
 	ctx.JSON(http.StatusOK, gin.H{
-		"code":    http.StatusOK,
+		"code": http.StatusOK,
+		"data": gin.H{
+			"access_token":  accessToken,
+			"refresh_token": "",
+			"expired":       0,
+		},
 		"message": fmt.Sprint(payload.UserName, payload.Password),
 	})
 }
