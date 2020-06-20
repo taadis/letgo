@@ -1,47 +1,48 @@
 package auth
 
 import (
+	"log"
 	"net/http"
 	"strings"
 
-	"gitee.com/taadis/giner/common"
-	"gitee.com/taadis/giner/model"
+	"gitee.com/taadis/letgo/store"
+	"gitee.com/taadis/letgo/util/jwt"
 	"github.com/gin-gonic/gin"
 )
 
+// AuthMiddleware
 func AuthMiddleware() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		//获取authorization header
+		// Authorization header
 		tokenString := ctx.GetHeader("Authorization")
-		//vcalidate token formate
-		if tokenString == "" || !strings.HasPrefix(tokenString, "Bearer") {
-			ctx.JSON(http.StatusUnauthorized, gin.H{"code": 401, "msg": "权限不足"})
+		// validate token format
+		if tokenString == "" || !strings.HasPrefix(tokenString, "Bearer ") {
+			ctx.JSON(http.StatusUnauthorized, gin.H{"code": http.StatusUnauthorized, "message": "unauthorized"})
 			ctx.Abort()
 			return
 		}
 
 		tokenString = tokenString[7:]
-		token, claims, err := common.ParseToken(tokenString)
+		token, claims, err := jwt.ParseToken(tokenString)
 		if err != nil || !token.Valid {
-			ctx.JSON(http.StatusUnauthorized, gin.H{"code": 401, "msg": "权限不足"})
+			ctx.JSON(http.StatusUnauthorized, gin.H{"code": http.StatusUnauthorized, "message": "unauthorized"})
 			ctx.Abort()
 			return
 		}
 
-		//验证通过后获取Claiim中的userId
+		// userId
 		userId := claims.UserId
-		DB := common.GetDB()
-		var user model.User
-		DB.First(&user, userId)
-
-		//用户不存在
-		if user.ID == 0 {
-			ctx.JSON(http.StatusUnauthorized, gin.H{"code": 401, "msg": "权限不足"})
+		user := &store.SystemUser{}
+		err = store.Db.First(user, userId).Error
+		if err != nil {
+			log.Println("db.First error", err.Error())
+			ctx.JSON(http.StatusUnauthorized, gin.H{"code": http.StatusUnauthorized, "message": "unauthorized"})
 			ctx.Abort()
 			return
 		}
-		//用户存在，将user信息写入上下文
-		ctx.Set("user", user)
+
+		// set identity to http context
+		ctx.Set("identity", user)
 		ctx.Next()
 	}
 }
