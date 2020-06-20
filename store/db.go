@@ -16,7 +16,9 @@ func init() {
 	database := conf.Database()
 	driverName := database.DriverName
 	dataSourceName := database.DataSourceName
+	logModel := database.LogMode
 	db, err := gorm.Open(driverName, dataSourceName)
+	db.LogMode(logModel)
 	if err != nil {
 		log.Fatalln("gorm.Open error", err.Error())
 	}
