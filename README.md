@@ -4,6 +4,12 @@ Let's Go.
 
 渐进式的 go 轮子.
 
+## 技能栈
+
+- [gin]()
+- [gin cors](github.com/gin-contrib/cors)
+- ...
+
 ## 结构
 
 - app - 应用层
