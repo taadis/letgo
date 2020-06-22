@@ -4,12 +4,21 @@ package main
 import (
 	userHandler "gitee.com/taadis/letgo/handler/user"
 	"gitee.com/taadis/letgo/middleware/auth"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 // setupRouter
 func setupRouter() *gin.Engine {
 	r := gin.Default()
+
+	// cors
+	//r.Use(cors.Default())
+	corsConf := cors.DefaultConfig()
+	corsConf.AddAllowHeaders("Authorization")
+	corsConf.AllowAllOrigins = true
+	r.Use(cors.New(corsConf))
+
 	r.GET("/ping", func(c *gin.Context) {
 		c.String(200, "pong")
 	})
