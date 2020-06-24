@@ -2,6 +2,7 @@
 package main
 
 import (
+	"gitee.com/taadis/letgo/handler/cron"
 	userHandler "gitee.com/taadis/letgo/handler/user"
 	"gitee.com/taadis/letgo/middleware/auth"
 	"github.com/gin-contrib/cors"
@@ -25,6 +26,9 @@ func setupRouter() *gin.Engine {
 	r.POST("/user/register", userHandler.Register)
 	r.POST("/user/login", userHandler.Login)
 	r.POST("/user/profile", auth.AuthMiddleware(), userHandler.Profile)
+
+	r.GET("/cron/create", cron.Create)
+
 	return r
 }
 
