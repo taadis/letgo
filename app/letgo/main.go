@@ -27,7 +27,7 @@ func setupRouter() *gin.Engine {
 	r.POST("/user/login", userHandler.Login)
 	r.POST("/user/profile", auth.AuthMiddleware(), userHandler.Profile)
 
-	r.GET("/cron/create", cron.Create)
+	r.POST("/cron/create", cron.Create)
 
 	return r
 }
