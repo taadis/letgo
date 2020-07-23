@@ -2,9 +2,8 @@ package store
 
 //
 type BasicPlatform struct {
-	Id      string `gorm:"column:id;primary_key"`
+	Code    string `gorm:"column:id;primary_key"`
 	Name    string `gorm:"column:name"`
-	Code    string `gorm:"column:code"`
 	Enabled bool   `gorm:"column:enabled"`
 }
 
