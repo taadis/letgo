@@ -1,21 +1,21 @@
 package main
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/robfig/cron/v3"
 )
 
 func main() {
-	fmt.Println("aikucun-activity-sync")
+	log.Println("aikucun-activity-sync")
 	c := cron.New()
 	spec := "* * * * *"
 	entryId, err := c.AddFunc(spec, ActivitiList)
 	if err != nil {
-		fmt.Println(".AddFunc error:", err.Error())
+		log.Println(".AddFunc error:", err.Error())
 		return
 	}
-	fmt.Println("entryId:", entryId)
+	log.Println("entryId:", entryId)
 	c.Start()
 	defer c.Stop()
 	select {}
@@ -23,5 +23,5 @@ func main() {
 
 // ActivitiList
 func ActivitiList() {
-	fmt.Println("synching")
+	log.Println("synching")
 }
