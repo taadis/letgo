@@ -9,7 +9,7 @@ import (
 func main() {
 	log.Println("aikucun-activity-sync")
 	c := cron.New()
-	spec := "* * * * *"
+	spec := "*/5 * * * *"
 	entryId, err := c.AddFunc(spec, ActivitiList)
 	if err != nil {
 		log.Println(".AddFunc error:", err.Error())
