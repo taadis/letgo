@@ -2,6 +2,7 @@
 package main
 
 import (
+	"gitee.com/taadis/letgo/handler/basic/platform"
 	"gitee.com/taadis/letgo/handler/cron"
 	userHandler "gitee.com/taadis/letgo/handler/user"
 	"gitee.com/taadis/letgo/middleware/auth"
@@ -28,6 +29,8 @@ func setupRouter() *gin.Engine {
 	r.POST("/user/profile", auth.AuthMiddleware(), userHandler.Profile)
 
 	r.POST("/cron/create", cron.Create)
+
+	r.POST("/basic/platform/add", platform.Add)
 
 	return r
 }
