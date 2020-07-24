@@ -3,8 +3,7 @@ package platform
 import (
 	"log"
 	"net/http"
-
-	"github.com/google/uuid"
+	"strconv"
 
 	"gitee.com/taadis/letgo/store"
 	"github.com/gin-gonic/gin"
@@ -13,11 +12,11 @@ import (
 // Add
 func Add(ctx *gin.Context) {
 	payload := struct {
-		Name    string `form:"name" binding:"required"`
-		Code    string `form:"code" binding:"required"`
-		Enabled bool   `form:"enabled"`
+		Name    string `json:"name" binding:"required"`
+		Code    string `json:"code" binding:"required"`
+		Enabled string `json:"enabled" binding:"-"`
 	}{}
-	err := ctx.Bind(&payload)
+	err := ctx.BindJSON(&payload)
 	if err != nil {
 		log.Println("ctx.Bind error", err.Error())
 		ctx.JSON(http.StatusBadRequest, gin.H{
@@ -28,10 +27,9 @@ func Add(ctx *gin.Context) {
 	}
 
 	entity := &store.BasicPlatform{}
-	entity.Id = uuid.New().String()
 	entity.Name = payload.Name
 	entity.Code = payload.Code
-	entity.Enabled = payload.Enabled
+	entity.Enabled, _ = strconv.ParseBool(payload.Enabled)
 	// TODO: check name/code value
 	err = store.Db.Create(entity).Error
 	if err != nil {
