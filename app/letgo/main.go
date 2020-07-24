@@ -33,6 +33,7 @@ func setupRouter() *gin.Engine {
 	basicGroup := r.Group("/basic")
 	{
 		basicGroup.POST("/platform/add", platform.Add)
+		basicGroup.GET("/platform/list", platform.List)
 	}
 
 	return r
