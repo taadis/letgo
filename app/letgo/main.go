@@ -30,7 +30,10 @@ func setupRouter() *gin.Engine {
 
 	r.POST("/cron/create", cron.Create)
 
-	r.POST("/basic/platform/add", platform.Add)
+	basicGroup := r.Group("/basic")
+	{
+		basicGroup.POST("/platform/add", platform.Add)
+	}
 
 	return r
 }
