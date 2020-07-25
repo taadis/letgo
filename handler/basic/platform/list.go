@@ -12,7 +12,15 @@ import (
 func List(ctx *gin.Context) {
 	log.Println(ctx.Request.RequestURI)
 	var platforms []store.BasicPlatform
-	store.Db.Where("").Find(&platforms)
+	err := store.Db.Where("").Find(&platforms).Error
+	if err != nil {
+		log.Print(".Find error:", err.Error())
+		ctx.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"code": http.StatusInternalServerError,
+			"msg":  ".Find error:" + err.Error(),
+		})
+		return
+	}
 
 	//
 	data := []struct {
