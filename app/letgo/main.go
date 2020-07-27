@@ -34,6 +34,7 @@ func setupRouter() *gin.Engine {
 	{
 		basicGroup.POST("/platform/add", platform.Add)
 		basicGroup.GET("/platform/list", platform.List)
+		basicGroup.POST("/platform/detail", platform.Detail)
 		basicGroup.POST("/platform/remove", platform.Remove)
 	}
 
