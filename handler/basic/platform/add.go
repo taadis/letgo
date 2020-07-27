@@ -3,7 +3,6 @@ package platform
 import (
 	"log"
 	"net/http"
-	"strconv"
 
 	"gitee.com/taadis/letgo/store"
 	"github.com/gin-gonic/gin"
@@ -14,7 +13,7 @@ func Add(ctx *gin.Context) {
 	payload := struct {
 		Name    string `json:"name" binding:"required"`
 		Code    string `json:"code" binding:"required"`
-		Enabled string `json:"enabled" binding:"-"`
+		Enabled bool   `json:"enabled" binding:"-"`
 	}{}
 	err := ctx.BindJSON(&payload)
 	if err != nil {
@@ -29,7 +28,7 @@ func Add(ctx *gin.Context) {
 	entity := &store.BasicPlatform{}
 	entity.Name = payload.Name
 	entity.Code = payload.Code
-	entity.Enabled, _ = strconv.ParseBool(payload.Enabled)
+	entity.Enabled = payload.Enabled
 	// TODO: check name/code value
 	err = store.Db.Create(entity).Error
 	if err != nil {
