@@ -3,6 +3,7 @@ package platform
 import (
 	"log"
 	"net/http"
+	"strconv"
 
 	"gitee.com/taadis/letgo/common"
 	"gitee.com/taadis/letgo/store"
@@ -13,9 +14,9 @@ import (
 func List(ctx *gin.Context) {
 	payload := struct {
 		common.Paging
-		Code    string      `json:"code" binding:"-"`
-		Name    string      `json:"name" binding:"-"`
-		Enabled interface{} `json:"enabled" binding:"-"`
+		Code    string `json:"code" binding:"-"`
+		Name    string `json:"name" binding:"-"`
+		Enabled string `json:"enabled" binding:"-"`
 	}{}
 	err := ctx.BindJSON(&payload)
 	if err != nil {
@@ -36,8 +37,16 @@ func List(ctx *gin.Context) {
 	if payload.Name != "" {
 		query = query.Where("name = ?", payload.Name)
 	}
-	if payload.Enabled != nil {
-		query = query.Where("enabled = ?", payload.Enabled.(bool))
+	if payload.Enabled != "" {
+		enabled, err := strconv.ParseBool(payload.Enabled)
+		if err != nil {
+			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
+				"code": http.StatusBadRequest,
+				"msg":  ".ParseBool error:" + err.Error(),
+			})
+			return
+		}
+		query = query.Where("enabled = ?", enabled)
 	}
 	err = query.Find(&platforms).Count(&count).Error
 	if err != nil {
