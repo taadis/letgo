@@ -42,7 +42,7 @@ func Add(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"code":    http.StatusOK,
+		"code":    0,
 		"data":    entity,
 		"message": "added platform",
 	})
