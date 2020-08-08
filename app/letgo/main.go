@@ -40,6 +40,7 @@ func setupRouter() *gin.Engine {
 		basicGroup.POST("/platform/remove", platform.Remove)
 
 		basicGroup.POST("/shop/list", shop.List)
+		basicGroup.POST("/shop/remove", shop.Remove)
 	}
 
 	return r
