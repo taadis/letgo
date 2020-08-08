@@ -3,6 +3,7 @@ package main
 
 import (
 	"gitee.com/taadis/letgo/handler/basic/platform"
+	"gitee.com/taadis/letgo/handler/basic/shop"
 	"gitee.com/taadis/letgo/handler/cron"
 	userHandler "gitee.com/taadis/letgo/handler/user"
 	"gitee.com/taadis/letgo/middleware/auth"
@@ -37,6 +38,8 @@ func setupRouter() *gin.Engine {
 		basicGroup.POST("/platform/detail", platform.Detail)
 		basicGroup.POST("/platform/update", platform.Update)
 		basicGroup.POST("/platform/remove", platform.Remove)
+
+		basicGroup.POST("/shop/list", shop.List)
 	}
 
 	return r
