@@ -3,7 +3,6 @@ package shop
 import (
 	"log"
 	"net/http"
-	"strconv"
 
 	"gitee.com/taadis/letgo/common"
 	"gitee.com/taadis/letgo/store"
@@ -14,6 +13,7 @@ import (
 func List(ctx *gin.Context) {
 	payload := struct {
 		common.Paging
+		Id      string `json:"id" binding:"-"`
 		Name    string `json:"name" binding:"-"`
 		Enabled string `json:"enabled" binding:"-"`
 	}{}
@@ -29,19 +29,14 @@ func List(ctx *gin.Context) {
 	var shops []store.BasicShop
 	count := 0
 	query := store.Db
+	if payload.Id != "" {
+		query = query.Where("id = ?", payload.Id)
+	}
 	if payload.Name != "" {
 		query = query.Where("name = ?", payload.Name)
 	}
 	if payload.Enabled != "" {
-		enabled, err := strconv.ParseBool(payload.Enabled)
-		if err != nil {
-			ctx.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
-				"code": http.StatusBadRequest,
-				"msg":  ".ParseBool error:" + err.Error(),
-			})
-			return
-		}
-		query = query.Where("enabled = ?", enabled)
+		query = query.Where("enabled = ?", payload.Enabled)
 	}
 	err = query.Find(&shops).Count(&count).Error
 	if err != nil {
