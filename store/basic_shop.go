@@ -6,7 +6,7 @@ type BasicShop struct {
 	Name         string `gorm:"column:name"`
 	PlatformCode string `gorm:"column:platform_code"`
 	AppInfo      string `gorm:"column:app_info"`
-	Enabled      bool   `gorm:"column:enabled"`
+	Enabled      string `gorm:"column:enabled"`
 }
 
 // TableName
