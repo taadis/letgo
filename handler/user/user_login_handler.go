@@ -2,7 +2,6 @@ package user
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
 	"gitee.com/taadis/letgo/store"
@@ -13,8 +12,8 @@ import (
 
 // UserLogin
 type UserLogin struct {
-	UserName string `form:"username" binding:"required"`
-	Password string `form:"password" binding:"required"`
+	UserName string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
 }
 
 // Login
@@ -22,7 +21,6 @@ func Login(ctx *gin.Context) {
 	payload := &UserLogin{}
 	err := ctx.Bind(payload)
 	if err != nil {
-		log.Println("ctx.Bind error", err.Error())
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"code":    http.StatusBadRequest,
 			"message": err.Error(),
@@ -34,7 +32,6 @@ func Login(ctx *gin.Context) {
 	user := &store.SystemUser{}
 	err = store.Db.Where("name=?", payload.UserName).First(user).Error
 	if err != nil {
-		log.Println("db.First error", err.Error())
 		ctx.JSON(http.StatusInternalServerError, gin.H{
 			"code":    http.StatusInternalServerError,
 			"message": err.Error(),
@@ -66,11 +63,13 @@ func Login(ctx *gin.Context) {
 
 	//
 	ctx.JSON(http.StatusOK, gin.H{
-		"code": http.StatusOK,
+		"code": 0,
 		"data": gin.H{
 			"access_token":  accessToken,
+			"token_type":    "bearer",
 			"refresh_token": "",
 			"expired":       0,
+			"scope":         "api",
 		},
 		"message": fmt.Sprint(payload.UserName, payload.Password),
 	})
