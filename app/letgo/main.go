@@ -5,6 +5,7 @@ import (
 	"gitee.com/taadis/letgo/handler/basic/platform"
 	"gitee.com/taadis/letgo/handler/basic/shop"
 	"gitee.com/taadis/letgo/handler/cron"
+	"gitee.com/taadis/letgo/handler/security"
 	userHandler "gitee.com/taadis/letgo/handler/user"
 	"gitee.com/taadis/letgo/middleware/auth"
 	"github.com/gin-contrib/cors"
@@ -41,6 +42,12 @@ func setupRouter() *gin.Engine {
 
 		basicGroup.POST("/shop/list", shop.List)
 		basicGroup.POST("/shop/remove", shop.Remove)
+	}
+
+	//
+	securityGroup := r.Group("/security")
+	{
+		securityGroup.POST("/encrypt/md5", security.EncryptMD5)
 	}
 
 	return r
