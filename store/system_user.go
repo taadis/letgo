@@ -8,6 +8,7 @@ type SystemUser struct {
 	Name     string `gorm:"varchar(20);not null"`
 	Password string `gorm:"size:255;not null"`
 	Salt     string `gorm:"not null"`
+	Enabled  string `gorom:"column:enabled;not null"`
 }
 
 // TableName

@@ -6,6 +6,7 @@ import (
 	"gitee.com/taadis/letgo/handler/basic/shop"
 	"gitee.com/taadis/letgo/handler/cron"
 	"gitee.com/taadis/letgo/handler/security"
+	systemUser "gitee.com/taadis/letgo/handler/system/user"
 	userHandler "gitee.com/taadis/letgo/handler/user"
 	"gitee.com/taadis/letgo/middleware/auth"
 	"github.com/gin-contrib/cors"
@@ -31,6 +32,11 @@ func setupRouter() *gin.Engine {
 	r.POST("/user/profile", auth.AuthMiddleware(), userHandler.Profile)
 
 	r.POST("/cron/create", cron.Create)
+
+	systemGroup := r.Group("/system")
+	{
+		systemGroup.POST("/user/list", systemUser.List)
+	}
 
 	basicGroup := r.Group("/basic")
 	{
