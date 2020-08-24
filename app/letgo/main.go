@@ -36,6 +36,7 @@ func setupRouter() *gin.Engine {
 	systemGroup := r.Group("/system")
 	{
 		systemGroup.POST("/user/list", systemUser.List)
+		systemGroup.POST("/user/remove", systemUser.Remove)
 	}
 
 	basicGroup := r.Group("/basic")
