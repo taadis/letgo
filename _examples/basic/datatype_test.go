@@ -8,6 +8,7 @@ import (
 // 测试数据类型存储大小
 func TestSizeof(t *testing.T) {
 	var b bool
+	var s string
 	var a int
 	var i8 int8
 	var i16 int16
@@ -17,6 +18,7 @@ func TestSizeof(t *testing.T) {
 	var f64 float64
 	t.Log("数据类型 存储大小(单位:字节 byte)")
 	t.Log("bool", unsafe.Sizeof(b))
+	t.Log("string", unsafe.Sizeof(s))
 	t.Log("int", unsafe.Sizeof(a))
 	t.Log("int8", unsafe.Sizeof(i8))
 	t.Log("int16", unsafe.Sizeof(i16))
