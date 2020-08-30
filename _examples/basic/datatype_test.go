@@ -16,6 +16,7 @@ func TestSizeof(t *testing.T) {
 	var i64 int64
 	var f32 float32
 	var f64 float64
+	var ui uint
 	var cx64 complex64
 	var cx128 complex128
 
@@ -27,6 +28,7 @@ func TestSizeof(t *testing.T) {
 	t.Log("int16", unsafe.Sizeof(i16))
 	t.Log("int32", unsafe.Sizeof(i32))
 	t.Log("int64", unsafe.Sizeof(i64))
+	t.Log("uint", unsafe.Sizeof(ui))
 	t.Log("float32", unsafe.Sizeof(f32))
 	t.Log("float64", unsafe.Sizeof(f64))
 	t.Log("complex64", unsafe.Sizeof(cx64))
