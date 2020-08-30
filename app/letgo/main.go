@@ -2,67 +2,69 @@
 package main
 
 import (
-	"letgo/web/controllers"
-
-	"github.com/dgrijalva/jwt-go"
-	jwtmiddleware "github.com/iris-contrib/middleware/jwt"
-	"github.com/kataras/iris"
-	"github.com/kataras/iris/middleware/logger"
-	"github.com/kataras/iris/middleware/recover"
-	"github.com/kataras/iris/mvc"
+	"gitee.com/taadis/letgo/handler/basic/platform"
+	"gitee.com/taadis/letgo/handler/basic/shop"
+	"gitee.com/taadis/letgo/handler/cron"
+	"gitee.com/taadis/letgo/handler/security"
+	systemUser "gitee.com/taadis/letgo/handler/system/user"
+	userHandler "gitee.com/taadis/letgo/handler/user"
+	"gitee.com/taadis/letgo/middleware/auth"
+	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
+
+// setupRouter
+func setupRouter() *gin.Engine {
+	r := gin.Default()
+
+	// cors
+	//r.Use(cors.Default())
+	corsConf := cors.DefaultConfig()
+	corsConf.AddAllowHeaders("Authorization")
+	corsConf.AllowAllOrigins = true
+	r.Use(cors.New(corsConf))
+
+	r.GET("/ping", func(c *gin.Context) {
+		c.String(200, "pong")
+	})
+	r.POST("/user/register", userHandler.Register)
+	r.POST("/user/login", userHandler.Login)
+	r.POST("/user/profile", auth.AuthMiddleware(), userHandler.Profile)
+
+	r.POST("/cron/create", cron.Create)
+
+	systemGroup := r.Group("/system")
+	{
+		systemGroup.POST("/user/list", systemUser.List)
+		systemGroup.POST("/user/change_password/", systemUser.ChangePassword)
+		systemGroup.POST("/user/remove", systemUser.Remove)
+	}
+
+	basicGroup := r.Group("/basic")
+	{
+		basicGroup.POST("/platform/add", platform.Add)
+		basicGroup.POST("/platform/list", platform.List)
+		basicGroup.POST("/platform/detail", platform.Detail)
+		basicGroup.POST("/platform/update", platform.Update)
+		basicGroup.POST("/platform/remove", platform.Remove)
+
+		basicGroup.POST("/shop/list", shop.List)
+		basicGroup.POST("/shop/remove", shop.Remove)
+	}
+
+	//
+	securityGroup := r.Group("/security")
+	{
+		securityGroup.POST("/encrypt/md5", security.EncryptMD5)
+	}
+
+	return r
+}
 
 // main
 func main() {
-	//app := iris.Default()
-	app := newApp()
+	r := setupRouter()
 
-	// 配置和启动服务
-	// 配置参考: https://www.studyiris.com/doc/irisDoc/Configuration.html
-	//app.Configure(iris.WithConfiguration(iris.TOML("./config/iris.yml")))
-	config := iris.YAML("./config/iris.yml")
-	//app.Configure(iris.WithConfiguration(ymlConfig))
-	//app.Run(iris.Addr(":80")) // 使用默认配置
-	app.Run(iris.Addr(":80"), iris.WithConfiguration(config))
-}
-
-//
-func newApp() *iris.Application {
-	jwthandler := jwtmiddleware.New(jwtmiddleware.Config{
-		ValidationKeyGetter: func(token *jwt.Token) (interface{}, error) {
-			return []byte("mySecret"), nil
-		},
-		SigningMethod: jwt.SigningMethodHS256,
-	})
-
-	app := iris.New()
-	app.Use(recover.New())
-	app.Use(logger.New())
-	app.Use(jwthandler.Serve)
-
-	// 注册视图(模板引擎)
-	viewEngine := iris.HTML("./web/views", ".html").Layout("shared/layout.html").Reload(true)
-	app.RegisterView(viewEngine)
-
-	// 设置静态文件目录
-	app.StaticWeb("/static", "./web/static")
-
-	// 处理异常
-	app.OnAnyErrorCode(func(ctx iris.Context) {
-		//ctx.ViewLayout("")
-		ctx.View("shared/error.html")
-	})
-
-	// Use MVC
-	//mvc.New(app.Party("/").Handle())
-	mvc.New(app).Handle(new(controllers.HomeController))
-
-	// app.Handle("GET", "/", func(ctx iris.Context) {
-	// 	ctx.HTML("<h1>Welcome</h1>")
-	// })
-	app.Get("/hello/{name}", func(ctx iris.Context) {
-		ctx.Writef("hello %s", ctx.Params().Get("name"))
-	})
-
-	return app
+	// Listening and serving HTTP on :8080
+	r.Run()
 }
