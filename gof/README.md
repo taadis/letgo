@@ -20,4 +20,5 @@
 - [Functional Options Pattern]() - 选项模式
 - [Singleton Pattern]() - 单例模式
 - [Strategy Pattern]() - 策略模式
+- [Builder Pattern](builder/builder-pattern.md) - 构建者模式
 - ...
