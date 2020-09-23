@@ -43,10 +43,11 @@ func Run()  {
 		log.Fatalln("rpc.Register() error:", err)
 	}
 	rpc.HandleHTTP()
-	l, err := net.Listen("tcp", ":1234")
+	l, err := net.Listen("tcp", ":0")
 	if err != nil {
 		log.Fatalln("net.Listen error:", err)
 	}
+	log.Println("listening on", l.Addr().String())
 	http.Serve(l, nil)
 }
 
