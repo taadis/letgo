@@ -36,7 +36,7 @@ func (a *Arith) Divide(args *Args, quo *Quotient) error  {
 	return nil
 }
 
-func main()  {
+func Run()  {
 	arith := new(Arith)
 	err := rpc.Register(arith)
 	if err != nil {
@@ -47,6 +47,6 @@ func main()  {
 	if err != nil {
 		log.Fatalln("net.Listen error:", err)
 	}
-	go http.Serve(l, nil)
+	http.Serve(l, nil)
 }
 
