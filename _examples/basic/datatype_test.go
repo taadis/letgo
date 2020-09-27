@@ -1,6 +1,7 @@
 package basic
 
 import (
+	"math"
 	"testing"
 	"unsafe"
 )
@@ -22,16 +23,16 @@ func TestSizeof(t *testing.T) {
 	var cx64 complex64
 	var cx128 complex128
 
-	t.Log("数据类型 存储大小(单位:字节 byte)")
+	t.Log("数据类型 存储大小(单位:字节 byte) | 值区间")
 	t.Log("bool", unsafe.Sizeof(b))
 	t.Log("byte", unsafe.Sizeof(by))
 	t.Log("ru", unsafe.Sizeof(ru))
 	t.Log("string", unsafe.Sizeof(s))
 	t.Log("int", unsafe.Sizeof(a))
-	t.Log("int8", unsafe.Sizeof(i8))
-	t.Log("int16", unsafe.Sizeof(i16))
-	t.Log("int32", unsafe.Sizeof(i32))
-	t.Log("int64", unsafe.Sizeof(i64))
+	t.Log("int8", unsafe.Sizeof(i8), math.MinInt8, math.MaxInt8)
+	t.Log("int16", unsafe.Sizeof(i16), math.MinInt16, math.MaxInt16)
+	t.Log("int32", unsafe.Sizeof(i32), math.MinInt32, math.MaxInt32)
+	t.Log("int64", unsafe.Sizeof(i64), math.MinInt64, math.MaxInt64)
 	t.Log("uint", unsafe.Sizeof(ui))
 	t.Log("float32", unsafe.Sizeof(f32))
 	t.Log("float64", unsafe.Sizeof(f64))
