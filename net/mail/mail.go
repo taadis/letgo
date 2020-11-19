@@ -11,7 +11,7 @@ import (
 func SendMail(host string, port int, username string, password string, from string, to []string, subject string, content []byte) (err error) {
 	// 参数
 	addr := fmt.Sprintf("%s:%d", host, port)
-	auth := smtp.PlainAuth("text/plain", username, password, host)
+	auth := smtp.PlainAuth("", username, password, host)
 	//msg := []byte("")
 	line := "\r\n"
 	buffer := bytes.Buffer{}
