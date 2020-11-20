@@ -13,3 +13,4 @@
   - [【学透GRPC】代码解说 第3集](https://www.bilibili.com/video/BV1Ei4y1b7my)
   - [【学透GRPC】代码解说 第4集](https://www.bilibili.com/video/BV19Q4y1N7x5)
   - [【学透GRPC】代码解说 第5集](https://www.bilibili.com/video/BV1ee411p7zu)
+  - [【学透GRPC 010】Proto文件，都干了些啥？](https://www.bilibili.com/video/BV19V411d7kC)
