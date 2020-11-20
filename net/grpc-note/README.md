@@ -6,3 +6,6 @@
   - [go-grpc 四种请求方式（1）](https://www.bilibili.com/video/BV16a4y1p7ku)
   - [go-grpc tls 认证](https://www.bilibili.com/video/BV1tV411a7QW)
   - [go-grpc 其他方式认证](https://www.bilibili.com/video/BV12a4y1p7sT)
+  
+- bilibili 面向加薪学习
+  - [【学透GRPC】代码解说 第1集](https://www.bilibili.com/video/BV1bC4y1W75P)
