@@ -17,4 +17,6 @@
   - ...
   
 - bilibili go语言grpc框架实战
-  - [go语言grpc框架实战](https://www.bilibili.com/video/BV1Fa4y1i7C6)
+  - [P1 go语言grpc框架实战](https://www.bilibili.com/video/BV1Fa4y1i7C6)
+  - [P2 创建gRPC服务端并运行](https://www.bilibili.com/video/BV1Fa4y1i7C6/?p=2)
+  - [P3 热身 创建客户端调用](https://www.bilibili.com/video/BV1Fa4y1i7C6/?p=3)
