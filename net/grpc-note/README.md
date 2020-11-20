@@ -12,3 +12,4 @@
   - [【学透GRPC】代码解说 第2集](https://www.bilibili.com/video/BV1E54y1X7rS)
   - [【学透GRPC】代码解说 第3集](https://www.bilibili.com/video/BV1Ei4y1b7my)
   - [【学透GRPC】代码解说 第4集](https://www.bilibili.com/video/BV19Q4y1N7x5)
+  - [【学透GRPC】代码解说 第5集](https://www.bilibili.com/video/BV1ee411p7zu)
