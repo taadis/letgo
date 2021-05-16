@@ -13,3 +13,6 @@ go.sum
 
 # .dat
 **/*.dat
+
+# macos system files
+**/.DS_Store
