@@ -26,7 +26,7 @@ func (*Consumer) HandleMessage(message *nsq.Message) error {
 
 func main()  {
 	config := nsq.NewConfig()
-	consumer, err := nsq.NewConsumer("my_topic", "test", config)
+	consumer, err := nsq.NewConsumer("order_cancel_topic", "test", config)
 	if err != nil {
 		log.Fatalf("nsq.NewConsumer error:%v", err)
 	}
