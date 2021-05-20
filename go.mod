@@ -8,6 +8,7 @@ go 1.11
 //)
 
 require (
+	fyne.io/fyne/v2 v2.0.3 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-contrib/cors v1.3.1
 	github.com/gin-gonic/gin v1.6.3
@@ -22,7 +23,6 @@ require (
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/stretchr/testify v1.6.1
-	golang.org/x/sys v0.0.0-20200615200032-f1bc736245b1 // indirect
 	google.golang.org/protobuf v1.24.0 // indirect
 	gopkg.in/yaml.v2 v2.3.0 // indirect
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
