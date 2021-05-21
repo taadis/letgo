@@ -1,12 +1,40 @@
 package main
 
 import (
+	"image/color"
+
+	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
+	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/widget"
 )
 
+func makeSign() fyne.CanvasObject {
+	bg := canvas.NewCircle(color.NRGBA{R: 255, A: 255})
+	bg.StrokeColor = color.White
+	bg.StrokeWidth = 5
+	bg.Resize(fyne.NewSize(100, 100))
+	bg.Move(fyne.NewPos(10, 10))
+
+	bar := canvas.NewRectangle(color.White)
+	bar.Resize(fyne.NewSize(80, 20))
+	bar.Move(fyne.NewPos(20, 50))
+
+	c := container.NewWithoutLayout(bg, bar)
+	return c
+}
+
 func main() {
+	a := app.New()
+	w := a.NewWindow("Toolkit")
+	w.SetContent(makeSign())
+	w.SetPadded(false)
+	w.Resize(fyne.NewSize(120, 120))
+	w.ShowAndRun()
+}
+
+func main1() {
 	a := app.New()
 	w := a.NewWindow("Toolkit")
 
