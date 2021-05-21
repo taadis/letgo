@@ -13,6 +13,29 @@ import (
 
 func main() {
 	a := app.New()
+	w := a.NewWindow("Gradient - 渐变")
+	//c := canvas.NewHorizontalGradient(color.White, color.Black)
+	c := canvas.NewVerticalGradient(color.White, color.Black)
+	w.SetContent(c)
+	w.ShowAndRun()
+}
+
+func generate(x, y, w, h int) color.Color {
+	if (x/20)%2 == (y/20)%2 {
+		return color.White
+	}
+	return color.Black
+}
+
+func main4() {
+	a := app.New()
+	w := a.NewWindow("Toolkit")
+	w.SetContent(canvas.NewRasterWithPixels(generate))
+	w.ShowAndRun()
+}
+
+func main3() {
+	a := app.New()
 	w := a.NewWindow("Toolkit")
 	//w.SetContent(canvas.NewText("Text", color.Black))
 	w.SetContent(widget.NewIcon(theme.ContentCopyIcon()))
