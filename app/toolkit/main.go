@@ -7,8 +7,17 @@ import (
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 )
+
+func main() {
+	a := app.New()
+	w := a.NewWindow("Toolkit")
+	//w.SetContent(canvas.NewText("Text", color.Black))
+	w.SetContent(widget.NewIcon(theme.ContentCopyIcon()))
+	w.ShowAndRun()
+}
 
 func makeSign() fyne.CanvasObject {
 	bg := canvas.NewCircle(color.NRGBA{R: 255, A: 255})
@@ -25,7 +34,7 @@ func makeSign() fyne.CanvasObject {
 	return c
 }
 
-func main() {
+func main2() {
 	a := app.New()
 	w := a.NewWindow("Toolkit")
 	w.SetContent(makeSign())
