@@ -3,6 +3,7 @@ package main
 import (
 	"image/color"
 	"net/url"
+	"time"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -12,7 +13,26 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-func main() {
+func main()  {
+	a := app.New()
+	w := a.NewWindow("Main")
+	w.SetContent(widget.NewLabel("Main"))
+	go showAnother(a)
+	w.ShowAndRun()
+}
+
+func showAnother(a fyne.App)  {
+	time.Sleep(5 * time.Second)
+
+	w := a.NewWindow("Shown later")
+	w.SetContent(widget.NewLabel("5 seconds later"))
+	w.Resize(fyne.NewSize(200, 200))
+	w.Show()
+	time.Sleep(2 * time.Second)
+	w.Close()
+}
+
+func main6() {
 	a := app.New()
 	w := a.NewWindow("Hyperlink - 超链接")
 	bugURL, _ := url.Parse("https://github.com/fyne-io/fyne/issue/new")
