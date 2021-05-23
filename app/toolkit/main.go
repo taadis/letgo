@@ -2,6 +2,7 @@ package main
 
 import (
 	"image/color"
+	"net/url"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -12,6 +13,14 @@ import (
 )
 
 func main() {
+	a := app.New()
+	w := a.NewWindow("Hyperlink - 超链接")
+	bugURL, _ := url.Parse("https://github.com/fyne-io/fyne/issue/new")
+	w.SetContent(widget.NewHyperlink("Report a bug", bugURL))
+	w.ShowAndRun()
+}
+
+func main5() {
 	a := app.New()
 	w := a.NewWindow("Gradient - 渐变")
 	//c := canvas.NewHorizontalGradient(color.White, color.Black)
