@@ -13,7 +13,24 @@ import (
 	"fyne.io/fyne/v2/widget"
 )
 
-func main()  {
+func main() {
+	a := app.New()
+	w := a.NewWindow("Manual layout - 手动布局")
+	square := canvas.NewRectangle(color.Black)
+	square.Move(fyne.NewPos(10, 10))
+	square.Resize(fyne.NewSize(90, 90))
+	circle := canvas.NewCircle(color.Transparent)
+	circle.StrokeColor = color.Gray{Y: 128}
+	circle.StrokeWidth = 5
+	circle.Move(fyne.NewPos(70, 70))
+	circle.Resize(fyne.NewSize(120, 120))
+	box := container.NewWithoutLayout(square, circle)
+	box.Resize(fyne.NewSize(200, 200))
+	w.SetContent(box)
+	w.ShowAndRun()
+}
+
+func main7() {
 	a := app.New()
 	w := a.NewWindow("Main")
 	w.SetContent(widget.NewLabel("Main"))
@@ -21,7 +38,7 @@ func main()  {
 	w.ShowAndRun()
 }
 
-func showAnother(a fyne.App)  {
+func showAnother(a fyne.App) {
 	time.Sleep(5 * time.Second)
 
 	w := a.NewWindow("Shown later")
