@@ -15,6 +15,48 @@ import (
 
 func main() {
 	a := app.New()
+	w := a.NewWindow("TODO List")
+	w.SetContent(makeUI())
+	w.ShowAndRun()
+}
+
+func makeUI() fyne.CanvasObject {
+	length := func() int {
+		return 5
+	}
+	createItem := func() fyne.CanvasObject {
+		b := widget.NewCheck("TODO Item x", func(b bool) {
+
+		})
+		return b
+	}
+	updateItem := func(widget.ListItemID, fyne.CanvasObject) {}
+	todos := widget.NewList(length, createItem, updateItem)
+
+	details := widget.NewForm(
+		widget.NewFormItem("Title", widget.NewEntry()),
+		widget.NewFormItem("Description", widget.NewMultiLineEntry()),
+		widget.NewFormItem("Category", widget.NewSelect([]string{"Home"}, func(s string) {})),
+		widget.NewFormItem("Priority", widget.NewRadioGroup([]string{"Low", "Mid", "High"}, func(string) {})),
+		widget.NewFormItem("Due", widget.NewEntry()),
+		widget.NewFormItem("Completion", widget.NewSlider(0, 100)),
+	)
+
+	toolbar := widget.NewToolbar(
+		widget.NewToolbarAction(theme.ContentAddIcon(), func() {}),
+	)
+
+	return container.NewBorder(
+		toolbar,
+		nil,
+		todos,
+		nil,
+		details,
+	)
+}
+
+func main8() {
+	a := app.New()
 	w := a.NewWindow("Manual layout - 手动布局")
 	square := canvas.NewRectangle(color.Black)
 	square.Move(fyne.NewPos(10, 10))
