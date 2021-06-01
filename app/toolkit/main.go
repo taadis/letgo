@@ -16,13 +16,23 @@ import (
 func main() {
 	a := app.New()
 	w := a.NewWindow("TODO List")
-	w.SetContent(makeUI())
+	data := dummyData()
+	tasks := taskApp{data: data, visible: data.remaining()}
+	w.SetContent(tasks.makeUI())
 	w.ShowAndRun()
 }
 
-func makeUI() fyne.CanvasObject {
+type taskApp struct {
+	data    *taskList
+	visible []*task
+	tasks   *widget.List
+	// more will be added here
+}
+
+func (a *taskApp) makeUI() fyne.CanvasObject {
 	length := func() int {
-		return 5
+		length := len(a.visible)
+		return length
 	}
 	createItem := func() fyne.CanvasObject {
 		b := widget.NewCheck("TODO Item x", func(b bool) {
@@ -30,7 +40,11 @@ func makeUI() fyne.CanvasObject {
 		})
 		return b
 	}
-	updateItem := func(widget.ListItemID, fyne.CanvasObject) {}
+	updateItem := func(i widget.ListItemID, c fyne.CanvasObject) {
+		check := c.(*widget.Check)
+		check.Text = a.visible[i].title
+		check.Refresh()
+	}
 	todos := widget.NewList(length, createItem, updateItem)
 
 	details := widget.NewForm(
@@ -43,7 +57,11 @@ func makeUI() fyne.CanvasObject {
 	)
 
 	toolbar := widget.NewToolbar(
-		widget.NewToolbarAction(theme.ContentAddIcon(), func() {}),
+		widget.NewToolbarAction(theme.ContentAddIcon(), func() {
+			task := &task{title: "New task"}
+			a.data.add(task)
+			//a.data.refreshData()
+		}),
 	)
 
 	return container.NewBorder(
