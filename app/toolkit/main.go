@@ -19,14 +19,60 @@ func main() {
 	data := dummyData()
 	tasks := taskApp{data: data, visible: data.remaining()}
 	w.SetContent(tasks.makeUI())
+	if len(data.remaining()) > 0 {
+		tasks.setTask(data.remaining()[0])
+	}
 	w.ShowAndRun()
+}
+
+func formatDate(date *time.Time) string  {
+	if date == nil {
+		return ""
+	}
+	return date.Format("02 Jan 06 15:04")
+}
+
+func dateValidator(s string) error {
+	_, err := time.Parse("02 Jan 06 15:04", s)
+	return err
 }
 
 type taskApp struct {
 	data    *taskList
 	visible []*task
-	tasks   *widget.List
+	current *task
+
+	title       *widget.Entry
+	tasks       *widget.List
+	description *widget.Entry
+	due         *widget.Entry
+	category    *widget.Select
+	priority    *widget.RadioGroup
+	completion  *widget.Slider
 	// more will be added here
+}
+
+// refreshData 刷新数据
+func (a *taskApp) refreshData()  {
+	// 隐藏已完成的任务
+	a.visible = a.data.remaining()
+	a.tasks.Refresh()
+}
+
+func (a *taskApp) setTask(t *task) {
+	a.current = t
+	a.title.SetText(t.title)
+	a.description.SetText(t.description)
+	a.category.SetSelected(t.category)
+	if t.priority == midPriority {
+		a.priority.SetSelected("Mid")
+	} else if t.priority == highPriority {
+		a.priority.SetSelected("High")
+	} else {
+		a.priority.SetSelected("Low")
+	}
+	a.due.SetText(formatDate(t.due))
+	a.completion.SetValue(t.completion)
 }
 
 func (a *taskApp) makeUI() fyne.CanvasObject {
@@ -43,24 +89,74 @@ func (a *taskApp) makeUI() fyne.CanvasObject {
 	updateItem := func(i widget.ListItemID, c fyne.CanvasObject) {
 		check := c.(*widget.Check)
 		check.Text = a.visible[i].title
+		check.OnChanged = func(done bool) {
+			a.visible[i].done = done
+			a.refreshData()
+		}
 		check.Refresh()
 	}
 	todos := widget.NewList(length, createItem, updateItem)
 
+	a.tasks.OnSelected = func(id widget.ListItemID) {
+		a.setTask(a.visible[id])
+	}
+
+	a.title = widget.NewEntry()
+	a.title.OnChanged = func(s string) {
+		if a.current == nil {
+			return
+		}
+
+		a.current.title = s
+		a.tasks.Refresh() // refresh list of titles
+	}
+	a.description = widget.NewMultiLineEntry()
+	a.category = widget.NewSelect([]string{"Home"}, func(string) {})
+	a.priority = widget.NewRadioGroup([]string{"Low", "Mid", "High"}, func(pri string) {
+		if a.current == nil {
+			return
+		}
+
+		if pri == "Mid" {
+			a.current.priority = midPriority
+		} else if pri == "High" {
+			a.current.priority = highPriority
+		} else {
+			a.current.priority = lowPriority
+		}
+	})
+	a.due = widget.NewEntry()
+	a.due.Validator = dateValidator
+	a.due.OnChanged = func(s string) {
+		if a.current == nil {
+			return
+		}
+
+		if s == "" {
+			a.current.due = nil
+		} else {
+			date, err := time.Parse("02 Jan 06 15:04", s)
+			if err != nil {
+				a.current.due = &date
+			}
+		}
+	}
+	a.completion = widget.NewSlider(0, 100)
+
 	details := widget.NewForm(
-		widget.NewFormItem("Title", widget.NewEntry()),
-		widget.NewFormItem("Description", widget.NewMultiLineEntry()),
-		widget.NewFormItem("Category", widget.NewSelect([]string{"Home"}, func(s string) {})),
-		widget.NewFormItem("Priority", widget.NewRadioGroup([]string{"Low", "Mid", "High"}, func(string) {})),
-		widget.NewFormItem("Due", widget.NewEntry()),
-		widget.NewFormItem("Completion", widget.NewSlider(0, 100)),
+		widget.NewFormItem("Title", a.title),
+		widget.NewFormItem("Description", a.description),
+		widget.NewFormItem("Category", a.category),
+		widget.NewFormItem("Priority", a.priority),
+		widget.NewFormItem("Due", a.due),
+		widget.NewFormItem("Completion", a.completion),
 	)
 
 	toolbar := widget.NewToolbar(
 		widget.NewToolbarAction(theme.ContentAddIcon(), func() {
 			task := &task{title: "New task"}
 			a.data.add(task)
-			//a.data.refreshData()
+			a.data.refreshData()
 		}),
 	)
 
