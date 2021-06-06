@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"image/color"
 	"time"
 
@@ -14,7 +13,7 @@ import (
 func main() {
 	a := app.New()
 	w := a.NewWindow("Snake")
-	game := setupGame()
+	game = setupGame()
 	w.SetContent(game)
 	w.Resize(fyne.NewSize(200, 200))
 	w.SetFixedSize(true)
@@ -50,7 +49,6 @@ func setupGame() *fyne.Container {
 }
 
 func refreshGame() {
-	fmt.Println("snakeParts:", snakeParts)
 	for i, seg := range snakeParts {
 		rect := game.Objects[i]
 		rect.Move(fyne.NewPos(seg.x*10, seg.y*10))
@@ -65,6 +63,6 @@ func runGame() {
 			snakeParts[i] = snakeParts[i-1]
 		}
 		snakeParts[0].y--
-		//refreshGame()
+		refreshGame()
 	}
 }
