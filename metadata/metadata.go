@@ -23,3 +23,15 @@ func FromContext(ctx context.Context) (Metadata, bool) {
 func NewContext(ctx context.Context, md Metadata) context.Context {
 	return context.WithValue(ctx, metaKey{}, md)
 }
+
+func WithMetadata(ctx context.Context, md Metadata) context.Context {
+	cmd, ok := ctx.Value(metaKey{}).(Metadata)
+	if ok {
+		for k, v := range cmd {
+			if _, ok := md[k]; !ok {
+				md[k] = v
+			}
+		}
+	}
+	return context.WithValue(ctx, metaKey{}, md)
+}
