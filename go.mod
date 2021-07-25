@@ -1,11 +1,6 @@
-module gitee.com/taadis/letgo
+module github.com/taadis/letgo
 
 go 1.11
-
-//require (
-//	github.com/iris-contrib/middleware v0.0.0-20190607180642-00dac7c43ee7
-//	github.com/kataras/iris v11.1.1+incompatible
-//)
 
 require (
 	fyne.io/fyne/v2 v2.0.3
@@ -28,4 +23,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
 )
 
-replace gitee.com/taadis/letgo => /
+replace github.com/taadis/letgo => /
