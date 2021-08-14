@@ -106,3 +106,7 @@ love.run -- The main function, containing the main loop. A sensible default is u
 love.update -- Callback function used to update the state of the game every frame.
 
 ```
+
+## 参考
+
+- [Config Files](http://love2d.org/wiki/Config_Files)
