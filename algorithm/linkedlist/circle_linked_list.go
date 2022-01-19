@@ -8,9 +8,11 @@ import (
 type CircleLinkedLister interface {
 	IsEmpty() bool
 	Length() int
-	Append(data interface{}) // 尾部追加节点
-	Remove(index int)        // 移除指定索引位置的节点
-	Shows()                  // 遍历显示
+	Append(data interface{})                  // 尾部追加节点
+	InsertBefore(index int, data interface{}) // 在指定索引位置之前插入
+	InsertAfter(index int, data interface{})  // 在指定索引位置之后插入
+	Remove(index int)                         // 移除指定索引位置的节点
+	Shows()                                   // 遍历显示
 }
 
 type CircleLinkedNode struct {
@@ -46,9 +48,6 @@ func (l *CircleLinkedList) IsEmpty() bool {
 }
 
 func (l *CircleLinkedList) Length() int {
-	l.mutex.RLock()
-	defer l.mutex.RUnlock()
-
 	return l.length
 }
 
@@ -65,6 +64,55 @@ func (l *CircleLinkedList) Append(data interface{}) {
 	p := l.head
 	for p.Next != l.head {
 		p = p.Next
+	}
+	p.Next = node
+	l.length++
+}
+
+func (l *CircleLinkedList) InsertBefore(index int, data interface{}) {
+	l.mutex.Lock()
+	defer l.mutex.Unlock()
+
+	if index < 0 || index > l.Length()-1 {
+		return
+	}
+
+	// new node
+	node := &CircleLinkedNode{
+		Data: data,
+		Next: nil,
+	}
+
+	p := l.head // 指定索引位置的节点
+	q := l.head // 前一个节点
+	for j := 0; j <= index; j++ {
+		q = p
+		p = p.Next
+	}
+
+	node.Next = p
+	q.Next = node
+	l.length++
+}
+
+func (l *CircleLinkedList) InsertAfter(index int, data interface{}) {
+	l.mutex.Lock()
+	defer l.mutex.Unlock()
+
+	if index < 0 || index > l.Length()-1 {
+		return
+	}
+
+	// find index node
+	p := l.head
+	for j := 0; j <= index; j++ {
+		p = p.Next
+	}
+
+	// new node
+	node := &CircleLinkedNode{
+		Data: data,
+		Next: p.Next,
 	}
 	p.Next = node
 	l.length++

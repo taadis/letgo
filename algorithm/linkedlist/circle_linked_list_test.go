@@ -2,6 +2,25 @@ package linkedlist
 
 import "testing"
 
+func TestCircleLinkedList_InsertAfter(t *testing.T) {
+	list := NewCircleLinkedList()
+	list.Append(1)
+	list.InsertAfter(0, 3)
+	list.InsertAfter(1, 5)
+	list.InsertAfter(2, 7)
+	list.Shows()
+	t.Logf("length:%d", list.Length())
+}
+
+func TestCircleLinkedList_InsertBefore(t *testing.T) {
+	list := NewCircleLinkedList()
+	list.Append(1)
+	list.InsertBefore(0, 3)
+	list.InsertBefore(0, 5)
+	list.InsertBefore(0, 7)
+	list.Shows()
+}
+
 func TestCircleLinkedList_Remove(t *testing.T) {
 	list := NewCircleLinkedList()
 	list.Append(1)
