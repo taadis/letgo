@@ -6,6 +6,16 @@ import (
 	"testing"
 )
 
+// wg.Add(-1)等价于wg.Done(),是不是还可以翻下源码看看.
+func TestSyncWait4_equal(t *testing.T) {
+	wg := &sync.WaitGroup{}
+	wg.Add(3)  // 添加3次计数
+	wg.Done()  // 用wg.Done完成1次
+	wg.Done()  // 用wg.Done完成2次
+	wg.Add(-1) // 用wg.Add(-1)完成3次,这行注释掉,下面的wg.Wait()会一直等待
+	wg.Wait()
+}
+
 // HTTP请求不同耗时的url,来验证sync.WaitGroup的使用
 func TestSyncWait3_urls(t *testing.T) {
 	wg := &sync.WaitGroup{}
