@@ -1,10 +1,43 @@
 package faq
 
 import (
+	"context"
 	"fmt"
+	"net/http"
 	"testing"
 	"time"
 )
+
+// channel的超时处理-使用context.WithTimeout
+// 通过http请求https://google.com基本不成功,在http本身超时之前ctx超时提前中断
+func TestChannel3_contextWithTimeout(t *testing.T) {
+	ctx := context.Background()
+	ctx, cancel := context.WithTimeout(ctx, time.Duration(time.Second*3))
+	defer cancel()
+
+	urls := []string{
+		"https://baidu.com",
+		"https://bing.com",
+		"https://google.com",
+	}
+
+	for _, url := range urls {
+		go func(ctx context.Context, url string) {
+			resp, err := http.Get(url)
+			if err != nil {
+				t.Logf("http get %s error:%v", url, err)
+				return
+			}
+			defer resp.Body.Close()
+			t.Logf("http get %s success:%d", url, resp.StatusCode)
+		}(ctx, url)
+	}
+
+	select {
+	case <-ctx.Done():
+		t.Logf("ctx timeout cancel.")
+	}
+}
 
 // channel+select的应用-吃饭睡觉打豆豆
 // 如何让协程合理退出?使用time.After来控制超时退出
