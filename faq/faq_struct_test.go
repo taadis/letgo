@@ -6,7 +6,33 @@ import (
 	"unsafe"
 )
 
-// 空结构的使用1-仅含方法的空结构体
+// 空结构体的使用-实现集合Set
+func TestEmptyStruct_Set(t *testing.T) {
+	set := make(Set)
+	set.Add("a")
+	set.Add("b")
+	set.Add("c")
+	t.Logf("set has a:%v", set.Has("a"))
+	t.Logf("set has b:%v", set.Has("b"))
+	t.Logf("set has d:%v", set.Has("d"))
+}
+
+type Set map[string]struct{}
+
+func (s Set) Has(key string) bool {
+	_, ok := s[key]
+	return ok
+}
+
+func (s Set) Add(key string) {
+	s[key] = struct{}{}
+}
+
+func (s Set) Remove(key string) {
+	delete(s, key)
+}
+
+// 空结构体的使用1-仅含方法的空结构体
 func TestStruct2_EmptyStructOnlyMethods(t *testing.T) {
 	foo := new(Foo)
 	foo.F1()
