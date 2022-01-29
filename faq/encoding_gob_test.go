@@ -3,8 +3,11 @@ package faq
 import (
 	"bytes"
 	"encoding/gob"
+	"encoding/json"
+	"encoding/xml"
 	"testing"
 	"time"
+	"unsafe"
 )
 
 type User struct {
@@ -53,4 +56,38 @@ func TestEncodingGob_EncodeDecode(t *testing.T) {
 	}
 
 	t.Logf("out user:%+v", out)
+}
+
+// TestEncodingGob_Sizeof gob编码后字节大小大2.5倍左右,何解?
+// 横向对比其他序列化方式大小,如:json/xml等
+func TestEncodingGob_Sizeof(t *testing.T) {
+	user := &User{
+		Name:     "李四",
+		Birthday: time.Now(),
+		Height:   178,
+	}
+
+	userSizeof := unsafe.Sizeof(user.Name) + unsafe.Sizeof(user.Birthday) + unsafe.Sizeof(user.Height)
+	t.Logf("user sizeof:%v", userSizeof) // output: 48
+
+	// gob encode
+	bs, err := Encode(user)
+	if err != nil {
+		t.Fatalf("encode error:%v", err)
+	}
+	t.Logf("gob encode bytes length:%d", len(bs)) // output:103
+
+	// json encode
+	bs, err = json.Marshal(user)
+	if err != nil {
+		t.Fatalf("json encode error:%v", err)
+	}
+	t.Logf("json encode bytes length:%d", len(bs)) // output:76
+
+	// xml encode
+	bs, err = xml.Marshal(user)
+	if err != nil {
+		t.Fatalf("xml encode error:%v", err)
+	}
+	t.Logf("xml encode bytes length:%d", len(bs)) // output:105
 }
