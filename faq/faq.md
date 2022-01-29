@@ -11,6 +11,13 @@
 - 无实际数据类型的channel
 - ...
 
+## Encoding
+
+- json
+- xml
+- [gob](encoding_gob_test.go)
+- ...
+
 ## 并发相关
 
 - [channel的流水线简单示例](channel_pipeline_test.go)
