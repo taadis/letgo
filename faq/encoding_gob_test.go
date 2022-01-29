@@ -18,8 +18,8 @@ type User struct {
 
 // Encode 用gob对数据结构进行编码
 func Encode(data interface{}) ([]byte, error) {
-	buf := bytes.NewBuffer(nil)
-	encoder := gob.NewEncoder(buf)
+	var buf bytes.Buffer
+	encoder := gob.NewEncoder(&buf)
 	err := encoder.Encode(data)
 	if err != nil {
 		return nil, err
