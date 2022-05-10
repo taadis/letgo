@@ -5,6 +5,7 @@
 目前支持
 
 - [github]()
+- [gitee]()
 - ...
 
 ## FAQ
@@ -20,3 +21,4 @@
 参考
 
 - [构建OAuth应用程序 - Github Docs](https://docs.github.com/cn/developers/apps/building-oauth-apps/authorizing-oauth-apps)
+- [Gitee OAuth 文档](https://gitee.com/api/v5/oauth_doc#/)
