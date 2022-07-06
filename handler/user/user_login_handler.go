@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"gitee.com/taadis/letgo/store"
-	"gitee.com/taadis/letgo/util/jwt"
-	"gitee.com/taadis/letgo/util/security"
 	"github.com/gin-gonic/gin"
+	"github.com/taadis/letgo/store"
+	"github.com/taadis/letgo/util/jwt"
+	"github.com/taadis/letgo/util/security"
 )
 
 // UserLogin

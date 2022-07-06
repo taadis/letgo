@@ -1,7 +1,7 @@
 package main
 
-import "gitee.com/taadis/letgo/net/rpc/client"
+import "github.com/taadis/letgo/net/rpc/client"
 
-func main()  {
+func main() {
 	client.Run()
 }

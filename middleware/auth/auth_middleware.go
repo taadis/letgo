@@ -5,9 +5,9 @@ import (
 	"net/http"
 	"strings"
 
-	"gitee.com/taadis/letgo/store"
-	"gitee.com/taadis/letgo/util/jwt"
 	"github.com/gin-gonic/gin"
+	"github.com/taadis/letgo/store"
+	"github.com/taadis/letgo/util/jwt"
 )
 
 // AuthMiddleware

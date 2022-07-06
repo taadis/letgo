@@ -3,11 +3,10 @@ package security
 import (
 	"net/http"
 
-	"gitee.com/taadis/letgo/util/security"
 	"github.com/gin-gonic/gin"
+	"github.com/taadis/letgo/util/security"
 )
 
-//
 func EncryptMD5(ctx *gin.Context) {
 	payload := struct {
 		Plaintext string `json:"plaintext" binding:"required"`

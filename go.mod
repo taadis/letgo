@@ -11,16 +11,17 @@ require (
 	github.com/go-redis/redis/v8 v8.11.4
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/godror/godror v0.20.4
-	github.com/google/uuid v1.1.1
+	github.com/google/uuid v1.1.2-0.20200519141726-cb32006e483f
 	github.com/jinzhu/gorm v1.9.14
-	github.com/json-iterator/go v1.1.10 // indirect
+	github.com/mattn/go-isatty v0.0.14 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.1 // indirect
 	github.com/robfig/cron/v3 v3.0.1
 	github.com/stretchr/testify v1.6.1
-	golang.org/x/crypto v0.0.0-20220321153916-2c7772ba3064 // indirect
-	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013 // indirect
-	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
+	golang.org/x/crypto v0.0.0-20220321153916-2c7772ba3064
+	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect
+	golang.org/x/sys v0.0.0-20220227234510-4e6760a101f9 // indirect
+	golang.org/x/time v0.0.0-20220609170525-579cf78fd858
 )
 
 replace github.com/taadis/letgo => /

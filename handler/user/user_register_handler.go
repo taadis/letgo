@@ -5,10 +5,10 @@ import (
 	"log"
 	"net/http"
 
-	"gitee.com/taadis/letgo/store"
-	"gitee.com/taadis/letgo/util/security"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/taadis/letgo/store"
+	"github.com/taadis/letgo/util/security"
 )
 
 // UserRegister

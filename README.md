@@ -63,8 +63,8 @@ Let's Go.
 
 ``` go
 import (	
-	userStore "gitee.com/taadis/store/user"
-	orderStore "gitee.com/taadis/store/order"
+	userStore "github.com/taadis/store/user"
+	orderStore "github.com/taadis/store/order"
 )
 ```
 

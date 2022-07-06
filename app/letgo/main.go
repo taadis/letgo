@@ -2,15 +2,15 @@
 package main
 
 import (
-	"gitee.com/taadis/letgo/handler/basic/platform"
-	"gitee.com/taadis/letgo/handler/basic/shop"
-	"gitee.com/taadis/letgo/handler/cron"
-	"gitee.com/taadis/letgo/handler/security"
-	systemUser "gitee.com/taadis/letgo/handler/system/user"
-	userHandler "gitee.com/taadis/letgo/handler/user"
-	"gitee.com/taadis/letgo/middleware/auth"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/taadis/letgo/handler/basic/platform"
+	"github.com/taadis/letgo/handler/basic/shop"
+	"github.com/taadis/letgo/handler/cron"
+	"github.com/taadis/letgo/handler/security"
+	systemUser "github.com/taadis/letgo/handler/system/user"
+	userHandler "github.com/taadis/letgo/handler/user"
+	"github.com/taadis/letgo/middleware/auth"
 )
 
 // setupRouter

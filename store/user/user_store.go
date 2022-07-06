@@ -3,7 +3,7 @@ package user
 import (
 	"log"
 
-	"gitee.com/taadis/letgo/store"
+	"github.com/taadis/letgo/store"
 )
 
 // 新增用户

@@ -1,4 +1,4 @@
-module gitee.com/taadis/nsqdemo
+module github.com/taadis/nsqdemo
 
 go 1.14
 

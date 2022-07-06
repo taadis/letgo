@@ -3,11 +3,10 @@ package shop
 import (
 	"net/http"
 
-	"gitee.com/taadis/letgo/store"
 	"github.com/gin-gonic/gin"
+	"github.com/taadis/letgo/store"
 )
 
-//
 func Remove(ctx *gin.Context) {
 	payload := struct {
 		Id string `json:"id" binding:"required"`
