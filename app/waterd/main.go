@@ -41,6 +41,14 @@ func main() {
 		c.Start()
 	}
 
+	hellJob := HelloJob{Name: "Cron"}
+	entryId, err := c.AddJob("*/3 * * * * *", hellJob)
+	if err != nil {
+		log.Fatalln("cron.AddJob error:", err.Error())
+	}
+	log.Println("added cron job entryId:", entryId)
+	c.Start()
+
 	defer c.Stop()
 
 	waitExit()
