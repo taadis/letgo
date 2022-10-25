@@ -1,6 +1,7 @@
 package logging
 
 import (
+	"fmt"
 	"io"
 	"log"
 	"os"
@@ -28,11 +29,11 @@ func init() {
 }
 
 func Infof(format string, v ...interface{}) {
-	infoLogger.Printf(format, v...)
+	infoLogger.Output(2, fmt.Sprintf(format, v...))
 }
 
 func Errorf(format string, v ...interface{}) {
-	errorLogger.Printf(format, v...)
+	errorLogger.Output(2, fmt.Sprintf(format, v...))
 }
 
 // SetPath sets the output path for the loggers.
