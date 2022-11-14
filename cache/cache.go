@@ -2,52 +2,40 @@ package cache
 
 import (
 	"context"
-	"crypto/tls"
 	"errors"
 	"time"
 )
 
 var (
+	// DefaultCache is the default cache.
+	DefaultCache Cache = NewCache()
+
+	// DefaultExpiration is the default duration for items stored in the cache to expire.
+	DefaultExpiration time.Duration = 0
+
+	ErrItemExpired = errors.New("item has expired")
+
 	ErrKeyNotFound = errors.New("key not found in cache")
-	ErrExpired     = errors.New("has expired")
 )
 
+// Cache is the interface that wraps the cache.
 type Cache interface {
-	Set(ctx context.Context, key string, value interface{}, expiration time.Duration) error
-	Get(ctx context.Context, key string) (interface{}, error)
+	Get(ctx context.Context, key string) (interface{}, time.Time, error)
+	Set(ctx context.Context, key string, value interface{}, d time.Duration) error
 	Del(ctx context.Context, key string) error
 }
 
-type Options struct {
-	Timeout time.Duration
-	TLS     *tls.Config
-	Version string
-	Address string
-	// more...
-}
+// NewCache returns a new cache.
+func NewCache(opts ...Option) Cache {
+	options := NewOptions(opts...)
+	items := make(map[string]Item)
 
-type Option func(*Options)
-
-func WithTimeout(d time.Duration) Option {
-	return func(o *Options) {
-		o.Timeout = d
+	if len(options.Items) > 0 {
+		items = options.Items
 	}
-}
 
-func WithTLS(c *tls.Config) Option {
-	return func(o *Options) {
-		o.TLS = c
-	}
-}
-
-func WithVersion(v string) Option {
-	return func(o *Options) {
-		o.Version = v
-	}
-}
-
-func WithAddress(addr string) Option {
-	return func(o *Options) {
-		o.Address = addr
+	return &memoryCache{
+		opts:  options,
+		items: items,
 	}
 }
