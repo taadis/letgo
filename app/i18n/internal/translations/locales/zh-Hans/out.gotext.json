@@ -1,0 +1,10 @@
+{
+    "language": "zh-Hans",
+    "messages": [
+        {
+            "id": "hello",
+            "message": "hello",
+            "translation": "你好"
+        }
+    ]
+}
