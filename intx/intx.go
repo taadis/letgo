@@ -12,3 +12,17 @@ func HasDuplicateValue0(values []int) bool {
 	}
 	return false
 }
+
+// HasDuplicateValue1 判断数组中是否有重复值
+// O(N):更优实现,只有一层循环,但多了一个变量存储,空间占用会变大
+func HasDuplicateValue1(values []int) bool {
+	existingNumbers := make(map[int]int, len(values))
+	for i := 0; i < len(values); i++ {
+		if existingNumbers[values[i]] == 0 {
+			existingNumbers[values[i]] = 1
+		} else {
+			return true
+		}
+	}
+	return false
+}
