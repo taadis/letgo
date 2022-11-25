@@ -17,4 +17,16 @@ func TestBubbleSort(t *testing.T) {
 		result := BubbleSort(values)
 		t.Log(result)
 	})
+
+	t.Run("2135", func(t *testing.T) {
+		values := []int{2, 1, 3, 5}
+		sortedValues := BubbleSort(values)
+		t.Log(sortedValues)
+	})
+
+	t.Run("42713", func(t *testing.T) {
+		values := []int{4, 2, 7, 1, 3}
+		sortedValues := BubbleSort(values)
+		t.Log(sortedValues)
+	})
 }
