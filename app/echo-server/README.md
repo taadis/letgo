@@ -12,7 +12,7 @@ echo-server是用Go语言实现一个简单echo服务器.
 
 通过telnet命令行工具来测试
 
-```go
+```
 telnet 127.0.0.1 5903
 Trying 127.0.0.1...
 Connected to localhost.
@@ -27,4 +27,18 @@ ping
 telnet> quit
 Connection closed.
 	
+```
+
+通过nc命令行工具来测试
+
+```
+nc 127.0.0.1 5903
+1
+1
+2
+2
+3
+3
+^C
+
 ```
