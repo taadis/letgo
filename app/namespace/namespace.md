@@ -31,3 +31,16 @@ Linux namespace是Linux内核提供的一种特性，它允许在单个宿主机
 ## go中如何使用namespace?
 
 见代码.
+
+## 参考
+
+- [namespaces(7) — Linux manual page](https://man7.org/linux/man-pages/man7/namespaces.7.html)
+- [mount_namespaces(7) — Linux manual page](https://man7.org/linux/man-pages/man7/mount_namespaces.7.html)
+- [pid_namespaces(7) — Linux manual page](https://www.man7.org/linux/man-pages/man7/pid_namespaces.7.html)
+- [network_namespaces(7) — Linux manual page](https://www.man7.org/linux/man-pages/man7/network_namespaces.7.html)
+- [ipc_namespaces(7) — Linux manual page](https://www.man7.org/linux/man-pages/man7/ipc_namespaces.7.html)
+- [uts_namespaces(7) — Linux manual page](https://www.man7.org/linux/man-pages/man7/uts_namespaces.7.html)
+- [user_namespaces(7) — Linux manual page](https://www.man7.org/linux/man-pages/man7/user_namespaces.7.html)
+- [cgroup_namespaces(7) — Linux manual page](https://www.man7.org/linux/man-pages/man7/cgroup_namespaces.7.html)
+- [cgroups(7) — Linux manual page](https://man7.org/linux/man-pages/man7/cgroups.7.html)
+- [time_namespaces(7) — Linux manual page](https://www.man7.org/linux/man-pages/man7/time_namespaces.7.html)
