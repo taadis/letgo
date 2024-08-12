@@ -24,6 +24,7 @@ Linux namespace是Linux内核提供的一种特性，它允许在单个宿主机
 - Network Namespace (网络命名空间)：用于将一个网络栈隔离到一组进程，使得每个namespace中的进程认为自己只有自己的网卡、路由表、防火墙规则等，独立于其他namespace中的。用于隔离网络栈和网络资源，包括网络设备、IP地址、路由表、网络协议栈等，使得每个namespace可以有自己独立的网络配置和环境。
 - User Namespace (用户命名空间)：用于将系统用户和用户组映射到指定的用户和用户组，使得每个namespace中的进程认为自己有独立的root用户，独立于其他namespace中的。用于隔离用户权限，允许每个namespace有自己的用户和用户组ID空间，从而实现用户级别的隔离和安全性。
 - Cgroup Namespace (cgroup命名空间)：用于将进程组隔离到指定的cgroup，使得每个namespace中的进程认为自己有独立的cgroup，独立于其他namespace中的。用于隔离cgroup资源，包括CPU、内存、磁盘I/O等，确保不同namespace中的进程无法直接访问其他namespace中的cgroup资源。用于隔离和管理控制组（cgroup）层次结构，使得在不同的namespace中的进程可以有各自独立的cgroup视图，从而实现资源的隔离和管理。
+- Time Namespace (时间命名空间)：用于将进程的时间隔离到指定的clock，使得每个namespace中的进程认为自己有独立的clock，独立于其他namespace中的。用于隔离启动和单调时钟，简单点来说就是隔离系统时间，使不同命名空间下的进程看到不同的系统时间。
 
 这些namespace类型在Linux内核中提供了强大的隔离能力，是容器技术如Docker得以实现的基础。通过组合使用这些namespace，可以为每个容器创建一个独立、隔离的运行环境。
 
