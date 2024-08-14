@@ -26,4 +26,19 @@ func TestNew(t *testing.T) {
 		// output:
 		// ptr1: 0xc0000a82f0, ptr2: 0xc0000a82f8
 	})
+
+	t.Run("new int", func(t *testing.T) {
+		ptr := new(int)
+		t.Logf("ptr: %+v value:%v", ptr, *ptr)
+	})
+
+	t.Run("new map", func(t *testing.T) {
+		ptr := new(map[string]int)
+		t.Logf("ptr: %+v value:%v", ptr, *ptr)
+	})
+
+	t.Run("new channel", func(t *testing.T) {
+		ptr := new(chan int)
+		t.Logf("ptr: %+v value:%v", ptr, *ptr)
+	})
 }
