@@ -46,3 +46,10 @@ curl -H "traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01" h
 curl -H "x-trace-id: 4bf92f3577b34da6a3ce929d0e0e4736" http://localhost:8080/
 ```
 两种方式都会正确地传递 trace ID 到后端系统。
+
+
+## todo:继续
+
+- worker 消费者如何添加自己的跟踪信息?
+- worker 如何从上游队列跟随跟踪信息?
+- job 定时任务如何添加自己的跟踪信息?
