@@ -14,13 +14,19 @@ type Application interface {
 }
 
 type App struct {
+	options *Options
+
+	//
 	kapp   *kratos.App
 	cmd    *cli.Command
 	logger log.Logger
 }
 
-func NewApp() *App {
+func NewApp(opts ...Option) *App {
+	options := NewOptions(opts...)
+
 	a := new(App)
+	a.options = options
 	a.kapp = a.newkapp()
 	a.cmd = a.newCmd()
 	return a
