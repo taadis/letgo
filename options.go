@@ -72,6 +72,13 @@ func WithVersion(version string) Option {
 	}
 }
 
+// WithMetadata with service metadata.
+func WithMetadata(metadata map[string]string) Option {
+	return func(o *Options) {
+		o.metadata = metadata
+	}
+}
+
 // WithEndpoint with service endpoint.
 func WithEndpoint(endpoints ...*url.URL) Option {
 	return func(o *Options) {
