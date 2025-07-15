@@ -62,3 +62,33 @@ func LoadConfig(configStruct interface{}, sources ...ConfigSource) error {
 
 	return nil
 }
+
+func (a *App) loadLocalConfig(v any) error {
+	//
+	configPath := fmt.Sprintf("%s.%s", a.options.ConfigName, "yaml")
+	if a.options.Env != "" {
+		configPath = fmt.Sprintf("%s-%s.%s", a.options.ConfigName, a.options.Env, "yaml")
+	}
+	// e.g.
+	// configPath = "config-dev.yaml"
+	log.Infof("loading local config from %s", configPath)
+
+	if _, err := os.Stat(configPath); os.IsNotExist(err) {
+		return fmt.Errorf("not found local config file=%s", configPath)
+	}
+
+	fileSource := file.NewSource(configPath)
+	c := config.New(config.WithSource(fileSource))
+	defer c.Close()
+
+	if err := c.Load(); err != nil {
+		return fmt.Errorf("failed to load local config: %v", err)
+	}
+
+	if err := c.Scan(&v); err != nil {
+		return fmt.Errorf("failed to scan local config: %v", err)
+	}
+	log.Infof("Loaded local config from %s", configPath)
+
+	return nil
+}
