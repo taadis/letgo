@@ -10,6 +10,7 @@ import (
 )
 
 type Application interface {
+	Load(v any) error
 	Run(ctx context.Context) error
 }
 
@@ -30,6 +31,10 @@ func NewApp(opts ...Option) *App {
 	a.kapp = a.newkapp()
 	a.cmd = a.newCmd()
 	return a
+}
+
+func (a *App) Load(v any) error {
+	return a.loadLocalConfig(v)
 }
 
 func (a *App) Run(ctx context.Context) error {

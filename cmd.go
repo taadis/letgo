@@ -44,7 +44,7 @@ func (a *App) newCommandFlags() []cli.Flag {
 			Name:    "config",
 			Aliases: []string{"c"},
 			Usage:   "指定配置文件路径",
-			Value:   a.options.ConfigPath,
+			Value:   a.options.ConfigName,
 		},
 	}
 }
