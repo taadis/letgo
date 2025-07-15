@@ -45,7 +45,7 @@ type Options struct {
 	servers []transport.Server
 
 	//koptions   []kratos.Option
-	ConfigPath string
+	ConfigName string
 	Env        string
 	Port       int
 	Config     interface{} // 项目的配置结构体
@@ -128,10 +128,11 @@ func StopTimeout(t time.Duration) Option {
 	}
 }
 
-// WithConfigPath 设置配置文件路径
-func WithConfigPath(path string) Option {
+// WithConfigName 设置配置文件名称
+// 比如：你的配置文件是config.yaml,这里name=config
+func WithConfigName(name string) Option {
 	return func(o *Options) {
-		o.ConfigPath = path
+		o.ConfigName = name
 	}
 }
 
@@ -151,13 +152,57 @@ func WithPort(port int) Option {
 
 // NewOptions 创建 Options 实例，应用默认值
 func NewOptions(opts ...Option) *Options {
-	o := &Options{
-		Env:        "dev",                 // 默认环境
-		Port:       8080,                  // 默认端口
-		ConfigPath: "configs/config.yaml", // 默认配置文件路径
-	}
+	// todo:代码里先不使用默认值,需要的话加到命令行参数里,更贴合点
+	// o := &Options{
+	// 	Env:        "dev",                 // 默认环境
+	// 	Port:       8080,                  // 默认端口
+	// 	ConfigName: "configs/config.yaml", // 默认配置文件路径
+	// }
+	o := new(Options)
 	for _, opt := range opts {
 		opt(o)
 	}
 	return o
 }
+
+// LoadConfig 动态加载配置文件（支持环境隔离）
+// 文件命名规则：
+//   - 默认加载 config.yaml
+//   - 指定环境时加载 config.{env}.yaml
+//
+// 使用示例：
+//
+//	opts := NewOptions(WithEnv("prod"))
+//	opts.LoadConfig(&cfg)
+// func (o *Options) LoadConfig(configStruct interface{}) error {
+// 	// 1. 解析配置目录
+// 	configDir := "configs"
+// 	if o.ConfigPath != "" {
+// 		configDir = o.ConfigPath
+// 	}
+
+// 	// 2. 动态生成文件名
+// 	fileName := "config.yaml"
+// 	if o.Env != "" {
+// 		fileName = fmt.Sprintf("config-%s.yaml", o.Env)
+// 	}
+
+// 	// 3. 加载配置
+// 	configPath := filepath.Join(configDir, fileName)
+// 	c := config.New(
+// 		config.WithSource(
+// 			file.NewSource(configPath),
+// 		),
+// 	)
+
+// 	if err := c.Load(); err != nil {
+// 		return fmt.Errorf("failed to load config from %s: %v", configPath, err)
+// 	}
+
+// 	if err := c.Scan(configStruct); err != nil {
+// 		return fmt.Errorf("failed to scan config: %v", err)
+// 	}
+
+// 	o.Config = configStruct
+// 	return nil
+// }
