@@ -36,7 +36,7 @@ func (codec2) Name() string {
 }
 
 func TestRegisterCodec(t *testing.T) {
-	f := func() { RegisterCodec(nil) }
+	f := func() { Register(nil) }
 	funcDidPanic, panicValue, _ := didPanic(f)
 	if !funcDidPanic {
 		t.Fatalf("func should panic\n\tPanic value:\t%#v", panicValue)
@@ -45,7 +45,7 @@ func TestRegisterCodec(t *testing.T) {
 		t.Fatalf("panic error got %s want cannot register a nil Codec", panicValue)
 	}
 	f = func() {
-		RegisterCodec(codec{})
+		Register(codec{})
 	}
 	funcDidPanic, panicValue, _ = didPanic(f)
 	if !funcDidPanic {
@@ -55,7 +55,7 @@ func TestRegisterCodec(t *testing.T) {
 		t.Fatalf("panic error got %s want cannot register Codec with empty Name()", panicValue)
 	}
 	codec := codec2{}
-	RegisterCodec(codec)
+	Register(codec)
 	got := GetCodec("xml")
 	if got != codec {
 		t.Fatalf("RegisterCodec(%v) want %v got %v", codec, codec, got)
