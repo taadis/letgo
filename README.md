@@ -1,5 +1,13 @@
 # learn-tensorflow
 
+## Python 环境
+
+创建python虚拟环境
+
+```
+make .venv
+```
+
 ## 安装 TensorFlow
 
 ```
