@@ -5,3 +5,7 @@ venv:
 .PHONY: install
 install:
 	pip install -r requirements.txt
+
+.PHONY: uninstall
+uninstall:
+	pip uninstall -r requirements.txt -y
