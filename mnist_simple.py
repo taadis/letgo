@@ -17,7 +17,8 @@ print("🔧 2.正在预处理数据...")
 train_images = train_images / 255.0
 test_images = test_images / 255.0
 
-print("🏗️ 3.正在构建神经网络模型...")
+# 3.搭建神经网络 - 配个脑子
+print("🧠 3.正在构建神经网络模型...")
 #  tf.keras.Sequential 这个函数的作用是什么?参数分别是什么意思?
 model = tf.keras.Sequential([
     # 将28*28的图像展平为784个像素
@@ -31,21 +32,37 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dense(10, activation='softmax')
 ])
 
-#
+# 4.配置学习方式 - 告诉学生/电脑如何学习
 print("⚙️ 4.正在编译模型...")
 model.compile(
+    # 学习算法:像聪明的学生,能自己调整学习速度
     optimizer='adam',
+    # 损失函数:衡量猜错的程度
     loss='sparse_categorical_crossentropy',
+    # 评估标准:看猜对的准确率
     metrics=['accuracy'],
 )
 
+# 5.开始训练 - 就像老师讲学生/电脑认字
 print("🚀 5.开始训练模型...")
-model.fit(train_images, train_labels, epochs=5)
+model.fit(
+    # 训练数据和正确答案
+    train_images,
+    train_labels,
+    # 学习5遍
+    epochs=5,
+    # todo:每次看多少张图片?
+    batch_size=32,
+    # 留20%的数据用来检查本次学习效果
+    validation_split=0.2,
+)
 
+# 6.考试测验 - 用没见过的图片测试学习和掌握情况
 print("📊 6.正在评估模型性能...")
 test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
 print(f"\n测试准确率:{test_acc:.4f}")
 
+# 7.保存学习成果
 print("💾 7.正在保存训练好的模型(.keras格式)...")
 # e.g.20250829_164832
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
