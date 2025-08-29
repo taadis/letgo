@@ -9,3 +9,7 @@ install:
 .PHONY: uninstall
 uninstall:
 	pip uninstall -r requirements.txt -y
+
+.PHONY: test
+test:
+	python -m unittest discover
