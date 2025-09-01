@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import ssl
+import os
 from datetime import datetime
 
 # 临时禁用SSL证书验证
@@ -49,8 +50,8 @@ model.fit(
     # 训练数据和正确答案
     train_images,
     train_labels,
-    # 学习5遍
-    epochs=5,
+    # 学习/训练5遍
+    epochs=1,
     # todo:每次看多少张图片?
     batch_size=32,
     # 留20%的数据用来检查本次学习效果
@@ -62,20 +63,41 @@ print("📊 6.正在评估模型性能...")
 test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
 print(f"\n测试准确率:{test_acc:.4f}")
 
+# 确保输出目录存在
+output_dir = "./.output"
+os.makedirs(output_dir, exist_ok=True)
+
 # 7.保存学习成果
-print("💾 7.正在保存训练好的模型(.keras格式)...")
-# e.g.20250829_164832
+#print("💾 7.正在保存训练好的模型(.keras格式)...")
+#e.g.20250829_164832
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-model_path = f"./.output/mnist_model_{timestamp}.keras"
-model.save(model_path)
-print("✅ 模型已保存为 'mnist_model' 文件夹")
+model_path = f"./.output/mnist_saved_model_{timestamp}"
+model.export(model_path)
+print(f"✅ 模型已保存至 {model_path} 文件夹")
 
 # 输出模型文件信息
-import os
-if os.path.exists(model_path):
-    size_kb = os.path.getsize(model_path) / 1024
-    abs_path = os.path.abspath(model_path)
-    print(f"📄 模型路径: {abs_path}")
-    print(f"📊 文件大小: {size_kb:.2f} KB")
-else:
-    print("❌ 模型文件保存失败")
+# import os
+# if os.path.exists(model_path):
+#     size_kb = os.path.getsize(model_path) / 1024
+#     abs_path = os.path.abspath(model_path)
+#     print(f"📄 模型路径: {abs_path}")
+#     print(f"📊 文件大小: {size_kb:.2f} KB")
+# else:
+#     print("❌ 模型文件保存失败")
+
+
+# 8.直接保存为.tflite
+# 创建一个转换器
+converter = tf.lite.TFLiteConverter.from_saved_model(model_path)
+# 设置转换选项
+# converter.optimizations = [tf.lite.Optimize.DEFAULT]
+# 可选:设置输入输出数据类型(提高移动端性能)
+# 使用半精度浮点数
+#converter.target_spec.supported_types = [tf.float16]
+# 转换模型
+tflite_model = converter.convert()
+tflite_model_path = f"./.output/mnist_model_{timestamp}.tflite"
+#保存为.tflite格式
+with open(tflite_model_path, 'wb') as f:
+    f.write(tflite_model)
+print(f"✅ 模型已保存为,路径:{tflite_model_path}")
