@@ -29,5 +29,6 @@ pip install numpy pandas matplotlib jupyter
 
 ## 参考
 
+- [TensorFlow - 菜鸟教程](https://www.runoob.com/tensorflow/tensorflow-tutorial.html)
 - [TensorFlow Lite 教程](https://www.tensorflow.org/lite/tutorials?hl=zh-cn)
 - [TensorFlow Lite 转换器](https://www.tensorflow.org/lite/convert?hl=zh-cn)
