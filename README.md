@@ -26,3 +26,7 @@ pip install tensorflow-metal
 pip install numpy pandas matplotlib jupyter
 
 > 上面前2个包都需要安装，不然macos识别不出来的GPU信息...
+
+## 参考
+
+- [TensorFlow Lite 转换器](https://www.tensorflow.org/lite/convert?hl=zh-cn)
