@@ -10,9 +10,11 @@ import logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # 下载所有预训练模型（仅需运行一次）
+#models = ["alexa"]
+models = ["hey jarvis"] # 说"嘿 贾维斯"
 try:
     logging.info("正在下载预训练模型...")
-    openwakeword.utils.download_models(["alexa"])
+    openwakeword.utils.download_models()
 except Exception as e:
     logging.error(f"下载模型失败: {e}")
     sys.exit(1)
@@ -21,7 +23,7 @@ except Exception as e:
 try:
     logging.info("正在初始化 openWakeWord 模型...")
     model = Model(
-        wakeword_models=["alexa"],  # 仅检测 "alexa" 热词
+        wakeword_models=models,  # 仅检测 "alexa" 热词
         vad_threshold=0.5  # 启用语音活动检测（VAD）
     )
 except Exception as e:
@@ -63,6 +65,7 @@ try:
         # 读取 80ms 的音频数据
         try:
             audio_data = stream.read(CHUNK, exception_on_overflow=False)
+            # print("1.got audio data...")
         except Exception as e:
             logging.warning(f"读取音频数据失败: {e}")
             continue
@@ -70,6 +73,7 @@ try:
         # 将音频数据转换为 numpy 数组（16-bit PCM）
         try:
             audio_frame = np.frombuffer(audio_data, dtype=np.int16)
+            # print("2.got audio frame...")
         except Exception as e:
             logging.warning(f"音频数据转换失败: {e}")
             continue
@@ -77,16 +81,18 @@ try:
         # 获取模型预测
         try:
             prediction = model.predict(audio_frame)
+            # print("3.got audio prediction...")
             # 检查是否有热词被检测到
             for wakeword, score in prediction.items():
-                if score > 0.5:  # 使用默认阈值 0.5
+                print(f"wakeword={wakeword},score={score}")
+                if score > 0.03:  # 使用默认阈值 0.5
                     print(f"检测到热词 '{wakeword}'，置信度: {score:.2f}")
         except Exception as e:
             logging.warning(f"模型预测失败: {e}")
             continue
 
-        # 控制循环速度
-        time.sleep(0.01)
+        # 控制循环速度,避免日志过多
+        time.sleep(0.08)
 
 except KeyboardInterrupt:
     print("停止监听...")
