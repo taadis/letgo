@@ -5,6 +5,17 @@
 以下是一个简单的本地 Python 热词唤醒示例，展示如何使用 `openWakeWord` 库进行实时麦克风音频流的热词检测。这个示例基于文档中的说明，特别是“Usage”部分的内容，并假设你已经安装了必要的依赖。
 
 ### 前提条件
+
+依赖都在 requirements.txt 文件中
+
+使用如下命令下载安装即可
+
+```
+pip install -r requirements.txt
+# or
+make install
+```
+
 1. **安装 openWakeWord**：
    确保已安装 `openwakeword` 库：
    ```bash
