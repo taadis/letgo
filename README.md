@@ -6,6 +6,8 @@
 
 ### 前提条件
 
+> 注意:macos上需要先安装 `brew install portaudio`
+
 依赖都在 requirements.txt 文件中
 
 使用如下命令下载安装即可
