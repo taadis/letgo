@@ -22,8 +22,15 @@ except ImportError:
     print("to install it")
     sys.exit(-1)
 
-import sherpa_onnx
-
+try:
+    import sherpa_onnx
+except ImportError:
+    print("Please install sherpa_onnx first. You need it.")
+    print()
+    print(" pip install sherpa_onnx")
+    print()
+    print("to install it.")
+    sys.exit(-1)
 
 def main():
     devices = sd.query_devices()
