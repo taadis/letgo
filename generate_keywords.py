@@ -7,6 +7,7 @@ def generate_keyword_line(text):
     return f'{pinyin_str} @{text}'
 
 # 生成新唤醒词
-wake_words = ['小助手', '开始工作', '星期五']
+# todo:有点问题,生成出来的pinyin跟tokens.txt有点对不上
+wake_words = ['小助手', '开始工作', '星期五', 'cc同学']
 for word in wake_words:
     print(generate_keyword_line(word))
