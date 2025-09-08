@@ -1,3 +1,4 @@
 pypinyin==0.55.0
+numpy==2.3.2
 sounddevice==0.5.2
 sherpa-onnx==1.12.11
