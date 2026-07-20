@@ -23,14 +23,18 @@ func (p *AlternatePrinter) produce() {
 	close(p.ch)
 }
 
+func (p *AlternatePrinter) worker() {
+	for num := range p.ch {
+		fmt.Printf("%d\n", num)
+	}
+}
+
 func (p *AlternatePrinter) Run() {
 	fmt.Printf("total is %d\n", p.total)
 
 	go p.produce()
 
-	for num := range p.ch {
-		fmt.Printf("%d\n", num)
-	}
+	p.worker()
 
 	fmt.Printf("all done.\n")
 }
