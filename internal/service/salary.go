@@ -8,5 +8,6 @@ type SalaryService struct {
 }
 
 func NewSalaryService() SalaryServicer {
-
+	s := new(SalaryService)
+	return s
 }
