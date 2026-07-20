@@ -2,6 +2,7 @@
 package registry
 
 type Registry interface {
+	String() string
 	Register(*Service) error
 	Deregister(*Service) error
 	GetService(name string) ([]*Service, error)
