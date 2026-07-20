@@ -1,4 +1,4 @@
-package midleware
+package middleware
 
 import (
 	"encoding/json"
@@ -8,11 +8,9 @@ import (
 	"time"
 )
 
-//
 type CustomHandler struct {
 }
 
-//
 type CustomModel struct {
 	Type string `json:"type,omitempty"`
 }
