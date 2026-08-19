@@ -20,8 +20,3 @@ func TestSetBasicAuth(t *testing.T) {
 		t.Errorf("test fail")
 	}
 }
-
-// TestGet
-func TestGet(t *testing.T) {
-	request, err := http.NewRequest()
-}
